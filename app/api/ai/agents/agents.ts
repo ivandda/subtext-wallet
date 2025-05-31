@@ -6,7 +6,7 @@ if (!process.env.OPENAI_API_KEY) {
   throw new Error("OPENAI_API_KEY must be set in .env.local");
 }
 
-export const llm = await initChatModel("openai:gpt-4.1");
+export const llm = await initChatModel("openai:gpt-4.1-mini");
 
 export const flightAgent = createReactAgent({
   llm,
