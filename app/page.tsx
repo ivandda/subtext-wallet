@@ -12,6 +12,7 @@ import { Poppins } from 'next/font/google'
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '600', '700'] })
 const brandPink = '#E6007A'   // Polkadot pink
 const brandPurple = '#A100FF' // Complementary purple
+const brandWhite = '#FFFFFF'
 
 const Container = ({ children, className = '' }: React.PropsWithChildren<{ className?: string }>) => (
   <div className={`mx-auto w-full max-w-7xl px-4 ${className}`}>{children}</div>
@@ -31,9 +32,9 @@ function Navbar() {
         </Link>
 
         <nav className='flex items-center space-x-4'>
-          <Link href='/login' className='hidden text-sm hover:text-[var(--brand-pink)] sm:block' style={{ '--brand-pink': brandPink } as React.CSSProperties}>
+          {/* <Link href='/login' className='hidden text-sm hover:text-[var(--brand-pink)] sm:block' style={{ '--brand-pink': brandPink } as React.CSSProperties}>
             Iniciar Sesión
-          </Link>
+          </Link> */}
           <Button className='bg-gradient-to-r text-black hover:opacity-90' style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}>
             Comenzar
           </Button>
@@ -70,9 +71,9 @@ function Hero() {
               Comenzar
               <ArrowRight className='ml-2 h-5 w-5' />
             </Button>
-            <Button variant='outline' className='border-white/10 text-lg text-white hover:bg-white/10'>
+            {/* <Button variant='outline' className='border-white/10 text-lg text-white hover:bg-white/10'>
               Saber Más
-            </Button>
+            </Button> */}
           </div>
         </motion.div>
       </Container>
@@ -131,6 +132,62 @@ function Features() {
       </Container>
     </section>
   )
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+//  Roadmap
+// ──────────────────────────────────────────────────────────────────────────────
+function Roadmap() {
+  const roadmapItems = [
+    {
+      title: 'Q1',
+      description: 'Expansión de funcionalidades y primeras integraciones estratégicas.',
+      color: brandWhite,
+    },
+    {
+      title: 'Q2',
+      description: 'Mejoras en la experiencia de usuario y ampliación de la base de usuarios.',
+      color: brandWhite,
+    },
+    {
+      title: 'Q3',
+      description: 'Introducción de nuevas características innovadoras y optimización de rendimiento.',
+      color: brandWhite,
+    },
+    {
+      title: 'Q4',
+      description: 'Consolidación en el mercado y preparación para futuras expansiones globales.',
+      color: brandWhite,
+    },
+  ];
+
+  return (
+    <section id='roadmap' className='border-t border-white/10 bg-black py-24'>
+      <Container>
+        <header className='mb-16 text-center'>
+          <h2 className='text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl'>Nuestra Hoja de Ruta</h2>
+          <p className='mt-4 text-gray-400'>Los próximos pasos para SubText Wallet.</p>
+        </header>
+
+        <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+          {roadmapItems.map((item, i) => (
+            <motion.article
+              key={item.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className='group rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-colors'
+              style={{ ['--tw-border-opacity' as any]: 0.5, borderColor: item.color }}
+            >
+              <h3 className='mb-2 text-xl font-bold'>{item.title}</h3>
+              <p className='text-gray-400'>{item.description}</p>
+            </motion.article>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -298,6 +355,7 @@ export default function HomePage() {
       <main className='flex flex-col'>
         <Hero />
         <Features />
+        <Roadmap />
         <CallToAction />
       </main>
 
