@@ -9,7 +9,7 @@ if (!process.env.POSTGRES_URI) {
 export const checkpointer = PostgresSaver.fromConnString(
   process.env.POSTGRES_URI,
   {
-    schema: "public", // defaults to "public" if omitted
+    schema: "public",
   }
 );
 
