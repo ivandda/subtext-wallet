@@ -1,103 +1,365 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { motion } from 'framer-motion'
+import { ArrowRight, CheckCircle2, CreditCard, LineChart, Lock, Wallet } from 'lucide-react'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Poppins } from 'next/font/google'
+
+// ──────────────────────────────────────────────────────────────────────────────
+//  Brand settings
+// ──────────────────────────────────────────────────────────────────────────────
+const poppins = Poppins({ subsets: ['latin'], weight: ['400', '600', '700'] })
+const brandPink = '#E6007A'   // Polkadot pink
+const brandPurple = '#A100FF' // Complementary purple
+const brandWhite = '#FFFFFF'
+
+const Container = ({ children, className = '' }: React.PropsWithChildren<{ className?: string }>) => (
+  <div className={`mx-auto w-full max-w-7xl px-4 ${className}`}>{children}</div>
+)
+
+// ──────────────────────────────────────────────────────────────────────────────
+//  Navbar                                                                       
+// ──────────────────────────────────────────────────────────────────────────────
+function Navbar() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <header className='fixed inset-x-0 top-0 z-50 h-20 border-b border-white/10 bg-black/60 backdrop-blur-xl'>
+      <Container className='flex h-full items-center justify-between'>
+        <Link href='/' className='flex items-center space-x-3 font-bold'>
+          {/* Brand logo */}
+          <img src='/logo.png' alt='SubText Wallet' className='h-12 w-12' />
+          <span className='text-2xl'>SubText Wallet</span>
+        </Link>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        <nav className='flex items-center space-x-4'>
+          {/* <Link href='/login' className='hidden text-sm hover:text-[var(--brand-pink)] sm:block' style={{ '--brand-pink': brandPink } as React.CSSProperties}>
+            Iniciar Sesión
+          </Link> */}
+          <Button className='bg-gradient-to-r text-black hover:opacity-90' style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}>
+            Comenzar
+          </Button>
+        </nav>
+      </Container>
+    </header>
+  )
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+//  Hero                                                                         
+// ──────────────────────────────────────────────────────────────────────────────
+function Hero() {
+  return (
+    <section id='hero' className='relative flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center overflow-hidden pt-20'>
+      <AnimatedBackdrop />
+
+      <Container className='relative z-10 text-center'>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className='mx-auto max-w-3xl space-y-8'
+        >
+          <h1 className='text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl'>
+            Dinero Global en Movimiento
+          </h1>
+          <p className='mx-auto max-w-2xl text-gray-400 sm:text-xl'>
+            Nuestra plataforma le permite a tu negocio tener acceso a rieles de pagos internacionales en segundos en vez de horas
+          </p>
+
+          <div className='flex justify-center gap-4'>
+            <Button className='text-lg text-black hover:opacity-90' style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}>
+              Comenzar
+              <ArrowRight className='ml-2 h-5 w-5' />
+            </Button>
+            {/* <Button variant='outline' className='border-white/10 text-lg text-white hover:bg-white/10'>
+              Saber Más
+            </Button> */}
+          </div>
+        </motion.div>
+      </Container>
+    </section>
+  )
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+//  Features                                                                     
+// ──────────────────────────────────────────────────────────────────────────────
+function Features() {
+  return (
+    <section id='features' className='border-t border-white/10 bg-black py-24'>
+      <Container>
+        <header className='mb-16 text-center'>
+          <h2 className='text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl'>¿Por Qué Elegirnos?</h2>
+          <p className='mt-4 text-gray-400'>Experimenta la banca que funciona para ti</p>
+        </header>
+
+        <div className='grid gap-8 md:grid-cols-2 lg:grid-cols-3'>
+          {[
+            {
+              icon: <CreditCard className='h-12 w-12' style={{ color: brandPink }} />,
+              title: 'Smart Cards',
+              desc: 'Tarjetas virtuales y físicas con controles avanzados y notificaciones en tiempo real.',
+              border: brandPink,
+            },
+            {
+              icon: <LineChart className='h-12 w-12' style={{ color: brandPurple }} />,
+              title: 'Inversiones Inteligentes',
+              desc: 'Estrategias de inversión automatizadas adaptadas a tus objetivos financieros.',
+              border: brandPurple,
+            },
+            {
+              icon: <Lock className='h-12 w-12' style={{ color: brandPink }} />,
+              title: 'Seguridad Bancaria',
+              desc: 'Seguridad de nivel empresarial con encriptación de extremo a extremo y autenticación biométrica.',
+              border: brandPink,
+            },
+          ].map(({ icon, title, desc, border }, i) => (
+            <motion.article
+              key={title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className='group rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-colors'
+              style={{ ['--tw-border-opacity' as any]: 0.5, borderColor: border }}
+            >
+              {icon}
+              <h3 className='mb-2 text-xl font-bold'>{title}</h3>
+              <p className='text-gray-400'>{desc}</p>
+            </motion.article>
+          ))}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </Container>
+    </section>
+  )
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+//  Roadmap
+// ──────────────────────────────────────────────────────────────────────────────
+function Roadmap() {
+  const roadmapItems = [
+    {
+      title: 'Q1',
+      description: 'Expansión de funcionalidades y primeras integraciones estratégicas.',
+      color: brandWhite,
+    },
+    {
+      title: 'Q2',
+      description: 'Mejoras en la experiencia de usuario y ampliación de la base de usuarios.',
+      color: brandWhite,
+    },
+    {
+      title: 'Q3',
+      description: 'Introducción de nuevas características innovadoras y optimización de rendimiento.',
+      color: brandWhite,
+    },
+    {
+      title: 'Q4',
+      description: 'Consolidación en el mercado y preparación para futuras expansiones globales.',
+      color: brandWhite,
+    },
+  ];
+
+  return (
+    <section id='roadmap' className='border-t border-white/10 bg-black py-24'>
+      <Container>
+        <header className='mb-16 text-center'>
+          <h2 className='text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl'>Nuestra Hoja de Ruta</h2>
+          <p className='mt-4 text-gray-400'>Los próximos pasos para SubText Wallet.</p>
+        </header>
+
+        <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+          {roadmapItems.map((item, i) => (
+            <motion.article
+              key={item.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className='group rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-colors'
+              style={{ ['--tw-border-opacity' as any]: 0.5, borderColor: item.color }}
+            >
+              <h3 className='mb-2 text-xl font-bold'>{item.title}</h3>
+              <p className='text-gray-400'>{item.description}</p>
+            </motion.article>
+          ))}
+        </div>
+      </Container>
+    </section>
   );
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+//  Call‑To‑Action                                                               
+// ──────────────────────────────────────────────────────────────────────────────
+function CallToAction() {
+  return (
+    <section className='border-t border-white/10 bg-black py-24'>
+      <Container>
+        <div
+          className='mx-auto max-w-3xl rounded-2xl border border-white/10 p-8 text-center backdrop-blur-sm md:p-12 lg:p-16'
+          style={{ backgroundImage: `linear-gradient(to right, ${brandPink}26, ${brandPurple}26)` }}
+        >
+          <h2 className='text-3xl font-bold tracking-tight sm:text-4xl'>¿Listo para Comenzar?</h2>
+          <p className='mx-auto mt-4 max-w-xl text-gray-400'>
+            Únete a miles de clientes satisfechos que confían en nosotros para sus necesidades bancarias.
+          </p>
+
+          <ul className='mx-auto mt-8 flex max-w-xl flex-col gap-4 text-left'>
+            {['Sin comisiones ni cargos ocultos', 'Soporte al cliente 24/7', 'Plataforma segura y regulada'].map((item) => (
+              <li key={item} className='flex items-center space-x-3'>
+                <CheckCircle2 className='h-5 w-5' style={{ color: brandPink }} />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+
+          <Button className='mt-8 text-lg text-black hover:opacity-90' style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}>
+            Abre tu Cuenta
+            <ArrowRight className='ml-2 h-5 w-5' />
+          </Button>
+        </div>
+      </Container>
+    </section>
+  )
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+//  Footer                                                                      
+// ──────────────────────────────────────────────────────────────────────────────
+function Footer() {
+  return (
+    <footer className='border-t border-white/10 bg-black py-8'>
+      <Container className='flex flex-col items-center justify-between gap-6 md:flex-row md:gap-0'>
+        <div className='flex items-center space-x-2'>
+          <Wallet className='h-6 w-6' style={{ color: brandPink }} />
+          <span className='font-bold'>SubText Wallet</span>
+        </div>
+
+        <p className='text-sm text-gray-400'>© {new Date().getFullYear()} SubText Wallet. Todos los derechos reservados.</p>
+
+        <nav className='flex gap-6'>
+          <Link href='#' className='text-sm text-gray-400 hover:text-[var(--brand-pink)]' style={{ '--brand-pink': brandPink } as React.CSSProperties}>
+            Privacidad
+          </Link>
+          <Link href='#' className='text-sm text-gray-400 hover:text-[var(--brand-pink)]' style={{ '--brand-pink': brandPink } as React.CSSProperties}>
+            Términos
+          </Link>
+        </nav>
+      </Container>
+    </footer>
+  )
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+//  Decorative backdrop component                                               
+// ──────────────────────────────────────────────────────────────────────────────
+function AnimatedBackdrop() {
+  return (
+    <>
+      <div className='absolute inset-0 overflow-hidden'>
+        <svg className='absolute h-full w-full' xmlns='http://www.w3.org/2000/svg'>
+          <defs>
+            <linearGradient id='gradPink' x1='1' y1='0' x2='0' y2='0'>
+              <stop offset='0%' stopColor={brandPink} stopOpacity='0' />
+              <stop offset='50%' stopColor={brandPink} stopOpacity='0.5' />
+              <stop offset='100%' stopColor={brandPink} stopOpacity='0' />
+            </linearGradient>
+            <linearGradient id='gradPurple' x1='1' y1='0' x2='0' y2='0'>
+              <stop offset='0%' stopColor={brandPurple} stopOpacity='0' />
+              <stop offset='50%' stopColor={brandPurple} stopOpacity='0.5' />
+              <stop offset='100%' stopColor={brandPurple} stopOpacity='0' />
+            </linearGradient>
+          </defs>
+          {[
+            { d: 'M 100 100 Q 300 0 500 100 T 900 100', grad: 'url(#gradPink)', delay: 0 },
+            { d: 'M 0 200 Q 200 100 400 200 T 800 200', grad: 'url(#gradPurple)', delay: 0.5 },
+            { d: 'M 100 600 Q 300 500 500 600 T 900 600', grad: 'url(#gradPink)', delay: 1 },
+          ].map(({ d, grad, delay }, i) => (
+            <motion.path
+              key={i}
+              d={d}
+              fill='none'
+              stroke={grad}
+              strokeWidth='1'
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 1 }}
+              transition={{
+                duration: 2,
+                ease: 'easeInOut',
+                repeat: Number.POSITIVE_INFINITY,
+                repeatType: 'loop',
+                repeatDelay: 1,
+                delay,
+              }}
+            />
+          ))}
+        </svg>
+
+        {/* Horizontal sweeping lines */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} className='absolute inset-0'>
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={i}
+              initial={{ x: '100%', opacity: 0 }}
+              animate={{ x: '-100%', opacity: [0, 0.7, 0.7, 0] }}
+              transition={{
+                duration: 2.5,
+                delay: i * 0.2,
+                repeat: Number.POSITIVE_INFINITY,
+                repeatType: 'loop',
+                ease: 'linear',
+              }}
+              className='absolute right-0'
+              style={{
+                top: `${15 + i * 10}%`,
+                height: '1px',
+                width: '100%',
+                background: `linear-gradient(90deg, transparent, ${i % 2 === 0 ? brandPink : brandPurple}60, transparent)`,
+              }}
+            />
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Blurred gradient blobs */}
+      <div className='absolute inset-0'>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 2 }}
+          className='absolute -left-1/4 top-1/4 h-96 w-96 rounded-full blur-3xl'
+          style={{ backgroundColor: `${brandPink}4D` }}
+        />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 2, delay: 0.5 }}
+          className='absolute -right-1/4 top-1/2 h-96 w-96 rounded-full blur-3xl'
+          style={{ backgroundColor: `${brandPurple}4D` }}
+        />
+      </div>
+    </>
+  )
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+//  Page                                                                         
+// ──────────────────────────────────────────────────────────────────────────────
+export default function HomePage() {
+  return (
+    <div className={`${poppins.className} min-h-screen bg-black text-white`}>
+      <Navbar />
+
+      <main className='flex flex-col'>
+        <Hero />
+        <Features />
+        <Roadmap />
+        <CallToAction />
+      </main>
+
+      <Footer />
+    </div>
+  )
 }
