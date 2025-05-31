@@ -1,20 +1,12 @@
-// import { ChatOpenAI } from "@langchain/openai";
-import { ChatOpenAI } from "@langchain/openai";
 import { createReactAgent } from "@langchain/langgraph/prebuilt";
 import { bookFlight, bookHotel } from "./tools";
+import { initChatModel } from "langchain/chat_models/universal";
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("OPENAI_API_KEY must be set in .env.local");
 }
 
-
-export const llm = new ChatOpenAI({ 
-    modelName: "gpt-4.1",
-    streaming: false,
-});
-
-
-console.log("Using LLM:", llm);
+export const llm = await initChatModel("openai:gpt-4.1");
 
 export const flightAgent = createReactAgent({
   llm,
