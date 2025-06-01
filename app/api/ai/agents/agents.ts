@@ -30,6 +30,7 @@
 import { createReactAgent } from "@langchain/langgraph/prebuilt";
 import { subtextWalletTools, getInfo } from "./tools"; // Import all wallet tools and getInfo
 import { initChatModel } from "langchain/chat_models/universal";
+import { checkpointer } from "./checkpointer"; // Import the checkpointer
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("OPENAI_API_KEY must be set in .env.local");
@@ -60,4 +61,5 @@ Guide users through wallet operations and provide information about the app.
 User the message history context for a correct choice and use of tools.
 If you are unsure how to proceed or if a user's request is ambiguous, ask for clarification.`,
   name: "subtext_assistant",
+  checkpointer: checkpointer,
 });
