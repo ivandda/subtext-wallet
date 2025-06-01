@@ -10,6 +10,7 @@ import { SUPPORTED_TOKENS, TokenInfo } from "../../wallet/supported-tokens";
 import { sendTransfer } from "../../wallet/transfer";
 import { crossChainBridge } from "../../wallet/xcm-bridge";
 import { config } from "process";
+import { allGeneralInfo } from "./generalInfo";
 
 /**
  * Get general information about the SubText Wallet and this project
@@ -19,7 +20,7 @@ import { config } from "process";
  */
 export const getInfo = tool(
   async (_input: unknown, _config?: LangGraphRunnableConfig) => {
-    return generalInfo;
+    return allGeneralInfo;
   },
   {
     name: "get_general_info",
@@ -28,7 +29,6 @@ export const getInfo = tool(
   }
 );
 
-const generalInfo = "SubText Wallet is a crypto wallet service that allows you to perform operations on the Polkadot Network, including managing assets and interacting with different parachains.";
 
 /**
  * Create Wallet tool.
@@ -284,8 +284,29 @@ export const createTransfer = tool(
   }
 );
 
+
+export const swapTokens = tool(
+  async (_input: unknown, config?: LangGraphRunnableConfig) => {
+    const userId = config?.configurable?.userId as string | undefined;
+    if (!userId) {
+      return "Error: User ID is required to swap tokens.";
+    }
+    const seedPhrase = await loadWalletData(userId).then(data => data.mnemonic);
+    if (!seedPhrase) {
+      return "Error: Unable to retrieve wallet seed phrase. Please ensure your wallet is created and accessible.";
+    }
+    return `You can swap tokens using the Hydration app. Visit this link to swap tokens: https://paseo-app.hydration.net/trade/swap?assetOut=0&assetIn=5.  Make sure to import your wallet using the seed phrase: ${seedPhrase}.`;
+  },
+  {
+    name: "swap_tokens",
+    description: "Provides a way to swap tokens, via a link to the Hydration web and the seed phrase to import the wallet. The user ID is automatically inferred.",
+    schema: z.object({}),
+  }
+);
+
 // You would then export these tools for your agent:
 export const subtextWalletTools = [
+  getInfo,
   createWallet,
   getWalletDetails,
   listAllTokenBalances,
@@ -294,5 +315,6 @@ export const subtextWalletTools = [
   listSupportedTokens,
   listSupportedChains,
   createXcBridge,
-  createTransfer
+  createTransfer,
+  swapTokens
 ];
