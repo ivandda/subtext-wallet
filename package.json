@@ -13,6 +13,8 @@
     "db:studio": "prisma studio"
   },
   "dependencies": {
+    "@discordjs/builders": "^1.11.2",
+    "@discordjs/rest": "^2.5.0",
     "@langchain/core": "^0.3.57",
     "@langchain/langgraph": "^0.2.74",
     "@langchain/langgraph-checkpoint-postgres": "^0.0.5",
@@ -24,6 +26,12 @@
     "@polkadot/util-crypto": "^13.5.1",
     "@prisma/client": "^6.8.2",
     "@radix-ui/react-slot": "^1.2.3",
+    "bufferutil": "^4.0.9",
+    "class-variance-authority": "^0.7.1",
+    "discord.js": "^14.19.3",
+    "dotenv": "^16.5.0",
+    "framer-motion": "^12.15.0",
+    "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
     "framer-motion": "^12.15.0",
     "langchain": "^0.3.27",
@@ -32,7 +40,9 @@
     "prisma": "^6.8.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-merge": "^3.3.0"
+    "tailwind-merge": "^3.3.0",
+    "utf-8-validate": "^6.0.5",
+    "zlib-sync": "^0.1.10"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
