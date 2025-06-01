@@ -1,7 +1,8 @@
 // project_root/app/api/ai/agents/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { HumanMessage } from "@langchain/core/messages";
-import { supervisorGraph } from "./supervisor";
+// import { supervisorGraph } from "./supervisor";
+import { subtextAgent } from "./agents"; // Import the single agent with all tools
 
 type RequestBody = {
   message: string;
@@ -22,10 +23,17 @@ export async function handleUserRequest(message: string, threadId: string, userI
     },
   };
 
-  // Call the supervisorGraph (non-streaming). This returns { messages: [ { role, content }, … ] }
-  const result = await supervisorGraph.invoke({ messages }, config);
+  // Call the subtextAgent directly.
+  // The createReactAgent returns a runnable that can be invoked.
+  // Depending on how createReactAgent structures its output, you might need to adjust how you extract the reply.
+  // For a standard react agent, the output is usually the final message list.
+  const result = await subtextAgent.invoke({ messages }, config);
 
   // The last message in result.messages is the assistant’s reply
+  // This assumes the agent's output format is { messages: [...] }
+  // If createReactAgent's direct invocation has a different output structure, adjust this.
+  // For example, if it directly returns the agent's final response string or a different object.
+  // Let's assume it's similar to the graph output for now.
   const lastMessage = result.messages[result.messages.length - 1];
   const assistantReply = lastMessage && typeof lastMessage.content === "string" ? lastMessage.content : "";
   return assistantReply;

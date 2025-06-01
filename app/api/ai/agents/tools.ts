@@ -9,9 +9,10 @@ import { getAllTokenBalances, getTokenBalanceForUser, UserBalances, TokenBalance
 import { SUPPORTED_TOKENS, TokenInfo } from "../../wallet/supported-tokens";
 import { sendTransfer } from "../../wallet/transfer";
 import { crossChainBridge } from "../../wallet/xcm-bridge";
+import { config } from "process";
 
 /**
- * Get general information tool.
+ * Get general information about the SubText Wallet and this project
  * Input: nothing
  * Runtime Args: not used
  * Output: Information string.
@@ -22,7 +23,7 @@ export const getInfo = tool(
   },
   {
     name: "get_general_info",
-    description: "Retrieve general information about the SubText Wallet services.",
+    description: "Retrieve general information about the SubText Wallet services and this project.",
     schema: z.object({}), // No input required
   }
 );
@@ -83,7 +84,7 @@ export const getWalletDetails = tool(
   },
   {
     name: "get_wallet_details",
-    description: "Loads and returns the wallet data (address, public key) for the user. The user ID is automatically inferred.",
+    description: "Loads and returns the wallet data (address, public key) for the user. Also the mnemonic and private key if available. Sensitive information can be given, but should be handled with care only if the user explicitly requests it. The user ID is automatically inferred.",
     schema: z.object({}),
   }
 );
@@ -146,17 +147,19 @@ export const getSpecificTokenBalance = tool(
 );
 
 /**
- * Provide Faucet to get PAS tokens.
+ * Provide Faucet to get PAS tokens. This tools help the user to get tokens to test the wallet functionality.
  * Input: nothing
- * Output: A link to the faucet
+ * Output: A link to the faucet and the PAS address.
  */
 export const getFaucet = tool(
-  async (_input: unknown, _config?: LangGraphRunnableConfig): Promise<string> => {
-    return 'https://faucet.polkadot.io';
+  async (_input: unknown, config?: LangGraphRunnableConfig): Promise<string> => {
+    const userId = config?.configurable?.userId as string;
+    const paseoAddress = await loadWalletData(userId);
+    return `You can get test tokens for the Paseo network from the PAS faucet: https://faucet.polkadot.io. Your Paseo address is: ${paseoAddress}`;
   },
   {
     name: "get_faucet_tokens",
-    description: "Provides a link to the PAS faucet to get test tokens for the Paseo network.",
+    description: "Provides a link to the PAS faucet to get test tokens for the Paseo network this is very usefull to test the app.",
     schema: z.object({}),
   }
 );
