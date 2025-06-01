@@ -1,6 +1,7 @@
 export type TokenInfo = {
   symbol: string;
   chain: string;
+  chainVerbose?: string;
   rpc: string;
   type: 'native' | 'asset' | 'foreign';
   decimals: number;
@@ -18,6 +19,7 @@ export const SUPPORTED_TOKENS: TokenInfo[] = [
   {
     symbol: "PAS", // PAS on Relay Chain (Paseo)
     chain: "paseo",
+    chainVerbose: "Paseo Relay Chain",
     rpc: "wss://paseo.rpc.amforc.com",
     type: "native",
     decimals: 10,
@@ -29,9 +31,10 @@ export const SUPPORTED_TOKENS: TokenInfo[] = [
     }
   },
   {
-    symbol: "PAS", // PAS on Asset Hub (paseo-asset-hub, parachainId 1000)
+    symbol: "PAS", // PAS on Asset Hub (assethub-paseo, parachainId 1000)
     chain: "assethub-paseo",
-    rpc: "wss://asset-hub-paseo-rpc.dwellir.com",
+    chainVerbose: "Asset Hub Paseo",
+    rpc: "wss://asset-hub-paseo.dotters.network",
     type: "native",
     decimals: 10,
     parachainId: 1000,
@@ -45,6 +48,7 @@ export const SUPPORTED_TOKENS: TokenInfo[] = [
   {
     symbol: "DOT", // PAS on HydraDX (hydradx, parachainId 2034)
     chain: "hydradx-paseo",
+    chainVerbose: "HydraDX Paseo",
     rpc: "wss://paseo.rpc.hydration.cloud",
     type: "foreign",
     decimals: 10,
@@ -60,6 +64,7 @@ export const SUPPORTED_TOKENS: TokenInfo[] = [
   {
     symbol: "HDX", // HDX native on HydraDX (hydradx-paseo, parachainId 2034)
     chain: "hydradx-paseo",
+    chainVerbose: "HydraDX Paseo",
     rpc: "wss://paseo.rpc.hydration.cloud",
     type: "native",
     decimals: 12,
