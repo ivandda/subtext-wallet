@@ -27,11 +27,19 @@ async function xcmTransfer({
   assetLocation: { Concrete: { parents: number; interior: string } };
   amount: bigint;
 }) {
-  const dest = api.createType('XcmVersionedLocation', {
-    V3: destParaId === 0 
-      ? { parents: 0, interior: 'Here' }
-      : { parents: 1, interior: { X1: { Parachain: destParaId } } }
-  });
+
+  let dest;
+
+  if(destParaId === 0) {
+    dest = api.createType('XcmVersionedLocation', {
+      V3: { parents: 0, interior: 'Here' }
+    });
+  }
+  else {
+    dest = api.createType('XcmVersionedLocation', {
+      V3: { parents: 1, interior: { X1: { Parachain: destParaId } } }
+    });
+  }
 
   const beneficiary = api.createType('XcmVersionedLocation', {
     V3: {
@@ -61,40 +69,53 @@ async function xcmTransfer({
   const weightLimit = api.createType('XcmV3WeightLimit', { Unlimited: null });
 
   // Try different XCM pallets based on what's available on the chain
-  let tx;
+  let tx: any;
   
-  if (api.tx.polkadotXcm?.limitedReserveTransferAssets) {
-    console.log('Using polkadotXcm.limitedReserveTransferAssets');
-    tx = api.tx.polkadotXcm.limitedReserveTransferAssets(
-      dest,
-      beneficiary,
-      assets,
-      0, // feeAssetItem
-      weightLimit
-    );
-  } else if (api.tx.xcmPallet?.limitedReserveTransferAssets) {
-    console.log('Using xcmPallet.limitedReserveTransferAssets');
-    tx = api.tx.xcmPallet.limitedReserveTransferAssets(
-      dest,
-      beneficiary,
-      assets,
-      0, // feeAssetItem
-      weightLimit
-    );
-  } else if (api.tx.xcmPallet?.reserveTransferAssets) {
-    console.log('Using xcmPallet.reserveTransferAssets');
-    tx = api.tx.xcmPallet.reserveTransferAssets(
-      dest,
-      beneficiary,
-      assets,
-      0 // feeAssetItem
-    );
+  if (destParaId === 1000) { // Asset Hub parachain ID
+    console.log('Using polkadotXcm.limitedTeleportAssets for Asset Hub');
+    if (api.tx.polkadotXcm?.limitedTeleportAssets) {
+      tx = api.tx.polkadotXcm.limitedTeleportAssets(
+        dest,
+        beneficiary,
+        assets,
+        0, // feeAssetItem
+        weightLimit
+      );
+    } else if (api.tx.xcmPallet?.limitedTeleportAssets) {
+      tx = api.tx.xcmPallet.limitedTeleportAssets(
+        dest,
+        beneficiary,
+        assets,
+        0,
+        weightLimit
+      );
+    }
   } else {
-    throw new Error('No suitable transfer method found on this chain');
+    // For other parachains, use reserve transfer
+    console.log('Destination parachain is not Asset Hub');
+    if (api.tx.polkadotXcm?.limitedReserveTransferAssets) {
+      console.log('Using polkadotXcm.limitedReserveTransferAssets');
+      tx = api.tx.polkadotXcm.limitedReserveTransferAssets(
+        dest,
+        beneficiary,
+        assets,
+        0, // feeAssetItem
+        weightLimit
+      );
+    } else if (api.tx.xcmPallet?.limitedReserveTransferAssets) {
+      console.log('Using xcmPallet.limitedReserveTransferAssets');
+      tx = api.tx.xcmPallet.limitedReserveTransferAssets(
+        dest,
+        beneficiary,
+        assets,
+        0, // feeAssetItem
+        weightLimit
+      );
+    }
   }
 
   return new Promise((resolve, reject) => {
-    tx.signAndSend(sender, ({ status, dispatchError, txHash }) => {
+    tx.signAndSend(sender, ({ status, dispatchError, txHash }: any) => {
       if (status.isInBlock) {
         console.log('XCM transfer included in block:', status.asInBlock.toHex());
         console.log('Transaction hash:', txHash.toHex());

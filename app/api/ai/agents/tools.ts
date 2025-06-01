@@ -155,7 +155,7 @@ export const getFaucet = tool(
   async (_input: unknown, config?: LangGraphRunnableConfig): Promise<string> => {
     const userId = config?.configurable?.userId as string;
     const paseoAddress = await loadWalletData(userId);
-    return `You can get test tokens for the Paseo network from the PAS faucet: https://faucet.polkadot.io. Your Paseo address is: ${paseoAddress}`;
+    return `You can get test tokens for the Paseo network from the PAS faucet: https://faucet.polkadot.io/?parachain=1000. Your Paseo address is: ${paseoAddress.address}`;
   },
   {
     name: "get_faucet_tokens",
