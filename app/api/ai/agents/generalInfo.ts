@@ -1,4 +1,4 @@
-export const allGeneralInfo = `Este chatbot forma parte de **SubText Wallet**, una wallet conversacional creada para el **Polkadot Hackathon organizado por Nerdconf** (más información: https://www.nerdconf.com/). El objetivo de SubText Wallet es facilitar el acceso al ecosistema Polkadot a través de comandos en lenguaje natural, sin requerir conocimientos técnicos de blockchain. Fue concebida para derribar las barreras de entrada que enfrentan usuarios no especializados y fomentar la adopción masiva de Polkadot.
+export const allGeneralInfo = `Este chatbot forma parte de **SubText Wallet**, una wallet conversacional creada para una Hackathon de Polkadot blockchian organizado por Nerdconf** (más información: https://www.nerdconf.com/). El objetivo de SubText Wallet es facilitar el acceso al ecosistema Polkadot a través de comandos en lenguaje natural, sin requerir conocimientos técnicos de blockchain. Fue concebida para derribar las barreras de entrada que enfrentan usuarios no especializados y fomentar la adopción masiva de Polkadot.
 
 ## Motivación y Problema Detectado
 
@@ -11,7 +11,7 @@ Polkadot ofrece grandes ventajas como interoperabilidad, seguridad compartida, e
 
 ## Solución: SubText Wallet
 
-SubText Wallet es la **primera wallet inteligente de Polkadot** que convierte cada interacción en una conversación sencilla dentro de Discord. Gracias a múltiples agentes de IA y a una capa de procesamiento de lenguaje natural (OpenAI + LangChain), el usuario simplemente escribe comandos en español como:
+SubText Wallet es la **primera wallet inteligente para Polkadot blockchain** que convierte cada interacción en una conversación sencilla dentro de Discord. Gracias a múltiples agentes de IA y a una capa de procesamiento de lenguaje natural (OpenAI + LangChain), el usuario simplemente escribe comandos en español como:
 - \`crear mi wallet\`
 - \`¿cuánta plata tengo?\`
 - \`mandá 2 DOT a 0xABC...\`
