@@ -9,7 +9,7 @@ export const sendTransfer = async (  userId: string,
   to: string,
   amountHuman: number) => {
 
-  let tokens = SUPPORTED_TOKENS.filter(t => t.symbol.toUpperCase() === tokenSymbol.toUpperCase());
+  const tokens = SUPPORTED_TOKENS.filter(t => t.symbol.toUpperCase() === tokenSymbol.toUpperCase());
   if (!tokens || tokens.length === 0) {
     throw new Error(`Token ${tokenSymbol} no soportado`);
   } 
