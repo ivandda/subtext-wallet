@@ -167,13 +167,13 @@ export const getFaucet = tool(
  * Output: Array of TokenInfo objects.
  */
 export const listSupportedTokens = tool(
-  async (_input: unknown, _config?: LangGraphRunnableConfig): Promise<TokenInfo[]> => {
+  async (_input: unknown, _config?: LangGraphRunnableConfig): Promise<string> => {
     try {
-      return SUPPORTED_TOKENS;
+      return JSON.stringify(SUPPORTED_TOKENS);
     } catch (error: any) {
       console.error(`Error listing supported tokens:`, error);
       // This case should ideally not happen as SUPPORTED_TOKENS is a static import.
-      return [];
+      return "Error listing supported tokens: " + error.message;
     }
   },
   {
@@ -189,18 +189,18 @@ export const listSupportedTokens = tool(
  * Output: Array of Chains objects.
  */
 export const listSupportedChains = tool(
-  async (_input: unknown, _config?: LangGraphRunnableConfig): Promise<{chainId: string, chainName: string}[]> => {
+  async (_input: unknown, _config?: LangGraphRunnableConfig): Promise<string> => {
     try {
       const chains = new Map();
       SUPPORTED_TOKENS.forEach(token => {
         chains.set(token.chain.toLowerCase(), token.chainVerbose ?? token.chain);
       });
       
-      return Array.from(chains, ([chainId, chainName]) => ({ chainId, chainName }));
+      return JSON.stringify(Array.from(chains, ([chainId, chainName]) => ({ chainId, chainName })));
     } catch (error: any) {
       console.error(`Error listing supported chains:`, error);
       // This case should ideally not happen as SUPPORTED_TOKENS is a static import.
-      return [];
+      return "Error listing supported chains: " + error.message;
     }
   },
   {
