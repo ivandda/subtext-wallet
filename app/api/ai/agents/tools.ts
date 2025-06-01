@@ -8,6 +8,7 @@ import { loadWalletData } from "../../wallet/export";
 import { getAllTokenBalances, getTokenBalanceForUser, UserBalances, TokenBalance } from "../../wallet/balance";
 import { SUPPORTED_TOKENS, TokenInfo } from "../../wallet/supported-tokens";
 import { sendTransfer } from "../../wallet/transfer";
+import { crossChainBridge } from "../../wallet/xcm-bridge";
 
 /**
  * Get general information tool.
@@ -183,6 +184,71 @@ export const listSupportedTokens = tool(
 );
 
 /**
+ * List Supported Chains tool.
+ * Input: nothing
+ * Output: Array of Chains objects.
+ */
+export const listSupportedChains = tool(
+  async (_input: unknown, _config?: LangGraphRunnableConfig): Promise<{chainId: string, chainName: string}[]> => {
+    try {
+      return new Set(SUPPORTED_TOKENS.map(token => ({
+        chainId: token.chain.toLowerCase(),
+        chainName: token.chainVerbose ?? token.chain
+      }))).values().toArray();
+    } catch (error: any) {
+      console.error(`Error listing supported chains:`, error);
+      // This case should ideally not happen as SUPPORTED_TOKENS is a static import.
+      return [];
+    }
+  },
+  {
+    name: "list_supported_chains",
+    description: "Lists all supported chains for the wallet, including their IDs and names.",
+    schema: z.object({}),
+  }
+);
+
+/**
+ * Create a cross-chain bridge transfer.
+ * Input: { sourceChain: string, destChain: string, senderId: string, tokenSymbol: string, amount: number }
+ * Output: Transaction hash or error string.
+ * Comment: This tool allows users to bridge tokens from one chain to another within the wallet, automatically inferring the user ID from the config.
+ *  If the user mentions 'Asset Hub', it will use assethub-paseo chain.
+ *  If the user mentions 'HydraDx', 'Hydration' or an intent to Swap tokens, it will use hydradx-paseo chain.
+ */
+export const createXcBridge = tool(
+  async (input: {sourceChain: string, destChain: string, tokenSymbol: string, amount: number}, config?: LangGraphRunnableConfig): Promise<string> => {
+    const userId = config?.configurable?.userId as string | undefined;
+    if (!userId) {
+      return "Error: User ID is required to create a transfer.";
+    }
+    try {
+      const bridgeResult = await crossChainBridge({
+        sourceChain: input.sourceChain, 
+        destChain: input.destChain, 
+        senderId: userId, 
+        assetName: input.tokenSymbol, 
+        amountHuman: input.amount});
+      const link = `https://${input.sourceChain}.subscan.io/extrinsic/${bridgeResult}`;
+      return `Bridged ${input.amount} ${input.tokenSymbol} from ${input.sourceChain} to ${input.destChain} successfully! Transaction hash: ${bridgeResult}. You can view it here: ${link}`;
+    } catch (error: any) {
+      console.error(`Error creating transfer for user ${userId}:`, error);
+      return `Error creating transfer: ${error.message}`;
+    }
+  },
+  {
+    name: "create_xc_bridge_transfer",
+    description: "Creates a cross-chain transfer of tokens from one chain to another within the user wallet. The user ID is automatically inferred.",
+    schema: z.object({
+      sourceChain: z.string().describe("The source chain from which the tokens will be sent (e.g., 'paseo', 'hydradx', 'assethub-paseo')"),
+      destChain: z.string().describe("The destination chain to which the tokens will be sent (e.g., 'paseo', 'hydradx', 'assethub-paseo')"),
+      tokenSymbol: z.string().describe("The symbol of the token to be transferred (e.g., 'PAS', 'HDX')"),
+      amount: z.number().describe("The amount of tokens to transfer (e.g., 10.5 for 10.5 PAS)"),
+    }),
+  }
+);
+
+/**
  * Create a trasfer
  * Input: { tokenSymbol: string, to: string, amountHuman: number } (userId is derived from config)
  * Output: Transaction hash or error string.
@@ -221,5 +287,7 @@ export const subtextWalletTools = [
   getSpecificTokenBalance,
   getFaucet,
   listSupportedTokens,
+  listSupportedChains,
+  createXcBridge,
   createTransfer
 ];
