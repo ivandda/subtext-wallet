@@ -12,7 +12,7 @@ Ensure the user's requests are handled efficiently and accurately.
 Always call the 'subtext_wallet_assistant' for wallet-related tasks`;
 
 export const supervisor = createSupervisor({
-  agents: [walletAgent, infoAgent], // Include the walletAgent and infoAgent
+  agents: [walletAgent, infoAgent],
   llm: llm,
   prompt: supervisorPrompt,
   tools: subtextWalletTools,
