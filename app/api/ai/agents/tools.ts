@@ -144,6 +144,22 @@ export const getSpecificTokenBalance = tool(
 );
 
 /**
+ * Provide Faucet to get PAS tokens.
+ * Input: nothing
+ * Output: A link to the faucet
+ */
+export const getFaucet = tool(
+  async (_input: unknown, _config?: LangGraphRunnableConfig): Promise<String> => {
+    return 'https://faucet.polkadot.io';
+  },
+  {
+    name: "get_faucet_tokens",
+    description: "Provides a link to the PAS faucet to get test tokens for the Paseo network.",
+    schema: z.object({}),
+  }
+);
+
+/**
  * List Supported Tokens tool.
  * Input: nothing
  * Output: Array of TokenInfo objects.
@@ -171,5 +187,6 @@ export const subtextWalletTools = [
   getWalletDetails,
   listAllTokenBalances,
   getSpecificTokenBalance,
+  getFaucet,
   listSupportedTokens,
 ];
