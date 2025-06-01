@@ -25,6 +25,16 @@ async function startBot() {
 
     client.once('ready', () => {
       console.log(`✅ Logged in as ${client?.user?.tag}!`);
+      console.log(`🔍 Bot ID: ${client?.user?.id}`);
+      console.log(`📊 Servers: ${client.guilds.cache.size}`);
+      console.log('🎯 Intents: ', client.options.intents);
+    });
+
+    // Add debug event
+    client.on('debug', (info) => {
+      if (info.includes('MESSAGE_CREATE') || info.includes('Heartbeat')) {
+        console.log('🐛 Debug:', info);
+      }
     });
 
     client.on('messageCreate', async (message) => {
