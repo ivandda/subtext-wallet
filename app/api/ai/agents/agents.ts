@@ -15,7 +15,7 @@ export const walletAgent = createReactAgent({
   prompt: `You are a specialized assistant for SubText Wallet.
 You can help users create wallets, check balances, list supported tokens, and get general information about the wallet.
 Always infer the userId from the configuration when a tool requires it.
-Be clear and concise in your responses. If a tool returns sensitive information (like mnemonics), confirm the action was successful but do not display the sensitive data directly in your response to the user, instead, mention that it's available through other secure means if applicable.`,
+Be clear and concise in your responses.`,
   name: "subtext_wallet_assistant",
 });
 

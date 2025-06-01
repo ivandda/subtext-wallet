@@ -33,7 +33,7 @@ const generalInfo = "SubText Wallet is a crypto wallet service that allows you t
  * Create Wallet tool.
  * Input: nothing
  * Runtime Args: userId (from config)
- * Output: Wallet creation confirmation: Adress, Mnemonic.
+ * Output: Wallet creation confirmation: Address.
  */
 export const createWallet = tool(
   async (_input: unknown, config?: LangGraphRunnableConfig) => {
@@ -139,8 +139,8 @@ export const getSpecificTokenBalance = tool(
     name: "get_specific_token_balance",
     description: "Retrieves the balance for a specific token on a specific chain for the user. The user ID is automatically inferred.",
     schema: z.object({
-      tokenSymbol: z.string().describe("The symbol of the token (e.g., 'PAS', 'DOT', 'HDX')"),
-      chain: z.string().describe("The chain name where the token resides (e.g., 'paseo', 'paseo-asset-hub', 'hydradx-paseo')"),
+      tokenSymbol: z.enum(Array.from(new Set(SUPPORTED_TOKENS.map(token => token.symbol))) as [string, ...string[]]).describe("The symbol of the token to check balance for (e.g., 'PAS', 'DOT')"),
+      chain: z.enum(Array.from(new Set(SUPPORTED_TOKENS.map(token => token.chain))) as [string, ...string[]]).describe("The chain name where the token resides (e.g., 'paseo', 'paseo-asset-hub', 'hydradx-paseo')"),
     }),
   }
 );
@@ -240,9 +240,9 @@ export const createXcBridge = tool(
     name: "create_xc_bridge_transfer",
     description: "Creates a cross-chain transfer of tokens from one chain to another within the user wallet. The user ID is automatically inferred.",
     schema: z.object({
-      sourceChain: z.string().describe("The source chain from which the tokens will be sent (e.g., 'paseo', 'hydradx', 'assethub-paseo')"),
-      destChain: z.string().describe("The destination chain to which the tokens will be sent (e.g., 'paseo', 'hydradx', 'assethub-paseo')"),
-      tokenSymbol: z.string().describe("The symbol of the token to be transferred (e.g., 'PAS', 'HDX')"),
+      sourceChain: z.enum(Array.from(new Set(SUPPORTED_TOKENS.map(token => token.chain.toLowerCase()))) as [string, ...string[]]).describe("The source chain from which the tokens will be sent"),
+      destChain: z.enum(Array.from(new Set(SUPPORTED_TOKENS.map(token => token.chain.toLowerCase()))) as [string, ...string[]]).describe("The destination chain to which the tokens will be sent"),
+      tokenSymbol: z.enum(Array.from(new Set(SUPPORTED_TOKENS.map(token => token.symbol))) as [string, ...string[]]).describe("The symbol of the token to be transferred"),
       amount: z.number().describe("The amount of tokens to transfer (e.g., 10.5 for 10.5 PAS)"),
     }),
   }
@@ -272,7 +272,7 @@ export const createTransfer = tool(
     name: "create_transfer",
     description: "Creates a transfer of tokens from the user's wallet to another address. The user ID is automatically inferred.",
     schema: z.object({
-      tokenSymbol: z.string().describe("The symbol of the token (e.g., 'PAS', 'DOT', 'HDX')"),
+      tokenSymbol: z.enum(Array.from(new Set(SUPPORTED_TOKENS.map(token => token.symbol))) as [string, ...string[]]).describe("The symbol of the token to be transferred (e.g., 'PAS', 'DOT')"),
       to: z.string().describe("The recipient address to which the tokens will be sent."),
       amountHuman: z.number().describe("The amount of tokens to send (e.g., 10.5 for 10.5 PAS)."),
     }),
