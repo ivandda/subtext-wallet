@@ -60,15 +60,15 @@ function Hero() {
           className='mx-auto max-w-3xl space-y-8'
         >
           <h1 className='text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl'>
-            Dinero Global en Movimiento
+            Polkadot, Sin Complicaciones. Solo Conversa.
           </h1>
           <p className='mx-auto max-w-2xl text-gray-400 sm:text-xl'>
-            Nuestra plataforma le permite a tu negocio tener acceso a rieles de pagos internacionales en segundos en vez de horas
+            Olvídate de la jerga técnica. Con SubText Wallet, gestiona tus activos, haz staking y swaps cross-chain usando lenguaje natural.
           </p>
 
           <div className='flex justify-center gap-4'>
             <Button className='text-lg text-black hover:opacity-90' style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}>
-              Comenzar
+              Comenzar Ahora
               <ArrowRight className='ml-2 h-5 w-5' />
             </Button>
             {/* <Button variant='outline' className='border-white/10 text-lg text-white hover:bg-white/10'>
@@ -89,28 +89,28 @@ function Features() {
     <section id='features' className='border-t border-white/10 bg-black py-24'>
       <Container>
         <header className='mb-16 text-center'>
-          <h2 className='text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl'>¿Por Qué Elegirnos?</h2>
-          <p className='mt-4 text-gray-400'>Experimenta la banca que funciona para ti</p>
+          <h2 className='text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl'>Descomplica Polkadot con SubText Wallet</h2>
+          <p className='mt-4 text-gray-400'>Interactúa con la blockchain de forma intuitiva, como si chatearas con un experto.</p>
         </header>
 
         <div className='grid gap-8 md:grid-cols-2 lg:grid-cols-3'>
           {[
             {
-              icon: <CreditCard className='h-12 w-12' style={{ color: brandPink }} />,
-              title: 'Smart Cards',
-              desc: 'Tarjetas virtuales y físicas con controles avanzados y notificaciones en tiempo real.',
+              icon: <Wallet className='h-12 w-12' style={{ color: brandPink }} />,
+              title: 'Comandos Simples, Poder Real',
+              desc: 'Dile adiós a las interfaces técnicas. Crea tu wallet, consulta saldos o transfiere tokens con frases cotidianas.',
               border: brandPink,
             },
             {
-              icon: <LineChart className='h-12 w-12' style={{ color: brandPurple }} />,
-              title: 'Inversiones Inteligentes',
-              desc: 'Estrategias de inversión automatizadas adaptadas a tus objetivos financieros.',
+              icon: <Lock className='h-12 w-12' style={{ color: brandPurple }} />,
+              title: 'Seguridad sin Sacrificar Sencillez',
+              desc: 'Gestionamos tus claves de forma segura para que te concentres en tus operaciones, no en la complejidad técnica.',
               border: brandPurple,
             },
             {
-              icon: <Lock className='h-12 w-12' style={{ color: brandPink }} />,
-              title: 'Seguridad Bancaria',
-              desc: 'Seguridad de nivel empresarial con encriptación de extremo a extremo y autenticación biométrica.',
+              icon: <LineChart className='h-12 w-12' style={{ color: brandPink }} />,
+              title: 'Todo el Ecosistema Polkadot en tus Manos',
+              desc: 'Realiza staking, swaps cross-chain (XCM) y más, todo guiado por nuestro agente IA de forma transparente.',
               border: brandPink,
             },
           ].map(({ icon, title, desc, border }, i) => (
@@ -140,23 +140,23 @@ function Features() {
 function Roadmap() {
   const roadmapItems = [
     {
-      title: 'Q1',
-      description: 'Expansión de funcionalidades y primeras integraciones estratégicas.',
+      title: 'Q1: Lanzamiento MVP',
+      description: 'MVP en Discord: Creación de wallet, consulta de saldo y transferencias on-chain mediante chat.',
       color: brandWhite,
     },
     {
-      title: 'Q2',
-      description: 'Mejoras en la experiencia de usuario y ampliación de la base de usuarios.',
+      title: 'Q2: Funcionalidades Avanzadas',
+      description: 'Integración de Staking y Swaps XCM. Primeros pasos para la expansión a Telegram.',
       color: brandWhite,
     },
     {
-      title: 'Q3',
-      description: 'Introducción de nuevas características innovadoras y optimización de rendimiento.',
+      title: 'Q3: IA Mejorada y Expansión',
+      description: 'Mejoras avanzadas en IA para comprensión del lenguaje natural. Optimización de fees. Beta en WhatsApp.',
       color: brandWhite,
     },
     {
-      title: 'Q4',
-      description: 'Consolidación en el mercado y preparación para futuras expansiones globales.',
+      title: 'Q4: Consolidación y Crecimiento',
+      description: 'Consolidación de la plataforma, soporte para más parachains y crecimiento de la comunidad de usuarios.',
       color: brandWhite,
     },
   ];
@@ -201,13 +201,17 @@ function CallToAction() {
           className='mx-auto max-w-3xl rounded-2xl border border-white/10 p-8 text-center backdrop-blur-sm md:p-12 lg:p-16'
           style={{ backgroundImage: `linear-gradient(to right, ${brandPink}26, ${brandPurple}26)` }}
         >
-          <h2 className='text-3xl font-bold tracking-tight sm:text-4xl'>¿Listo para Comenzar?</h2>
+          <h2 className='text-3xl font-bold tracking-tight sm:text-4xl'>¿Listo para Chatear con la Blockchain?</h2>
           <p className='mx-auto mt-4 max-w-xl text-gray-400'>
-            Únete a miles de clientes satisfechos que confían en nosotros para sus necesidades bancarias.
+            Únete a la nueva era de la interacción con Polkadot. Simple, seguro y conversacional.
           </p>
 
           <ul className='mx-auto mt-8 flex max-w-xl flex-col gap-4 text-left'>
-            {['Sin comisiones ni cargos ocultos', 'Soporte al cliente 24/7', 'Plataforma segura y regulada'].map((item) => (
+            {[
+              'Maneja tus criptoactivos en Polkadot usando lenguaje natural.',
+              'Olvídate de la complejidad de las seed phrases y las transacciones.',
+              'Accede a staking y swaps XCM sin ser un experto.',
+            ].map((item) => (
               <li key={item} className='flex items-center space-x-3'>
                 <CheckCircle2 className='h-5 w-5' style={{ color: brandPink }} />
                 <span>{item}</span>
@@ -216,7 +220,7 @@ function CallToAction() {
           </ul>
 
           <Button className='mt-8 text-lg text-black hover:opacity-90' style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}>
-            Abre tu Cuenta
+            Únete a Nuestro Discord
             <ArrowRight className='ml-2 h-5 w-5' />
           </Button>
         </div>
