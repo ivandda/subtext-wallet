@@ -1,9 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, CheckCircle2, CreditCard, LineChart, Lock, Wallet } from 'lucide-react'
+import { ArrowRight, CheckCircle2, LineChart, Lock, Wallet } from 'lucide-react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import { Poppins } from 'next/font/google'
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -32,12 +31,12 @@ function Navbar() {
         </Link>
 
         <nav className='flex items-center space-x-4'>
-          {/* <Link href='/login' className='hidden text-sm hover:text-[var(--brand-pink)] sm:block' style={{ '--brand-pink': brandPink } as React.CSSProperties}>
-            Iniciar Sesión
-          </Link> */}
-          <Button className='bg-gradient-to-r text-black hover:opacity-90' style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}>
-            Comenzar
-          </Button>
+          <div className='flex justify-center gap-4'>
+            <a href="https://discord.com/oauth2/authorize?client_id=1378415507794952332" target="_blank" className='text-lg text-black hover:opacity-90 p-2 px-4 rounded-full flex items-center' style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}>
+              Comenzar 
+              <ArrowRight className='ml-2 h-5 w-5' />
+            </a>
+            </div>
         </nav>
       </Container>
     </header>
@@ -49,32 +48,124 @@ function Navbar() {
 // ──────────────────────────────────────────────────────────────────────────────
 function Hero() {
   return (
-    <section id='hero' className='relative flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center overflow-hidden pt-20'>
+    <section id='hero' className='relative flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center overflow-hidden pt-30'>
       <AnimatedBackdrop />
 
-      <Container className='relative z-10 text-center'>
+      <Container className='relative z-10'>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className='mx-auto max-w-3xl space-y-8'
+          className='grid lg:grid-cols-3 gap-12 items-center min-h-[60vh]'
         >
-          <h1 className='text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl'>
-            Polkadot, Sin Complicaciones. Solo Conversa.
-          </h1>
-          <p className='mx-auto max-w-2xl text-gray-400 sm:text-xl'>
-            Olvídate de la jerga técnica. Con SubText Wallet, gestiona tus activos, haz staking y swaps cross-chain usando lenguaje natural.
-          </p>
+          {/* Left side - Logo and Product Name */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className='flex flex-col items-center space-y-6 lg:col-span-1'
+          >
+            <div className='relative'>
+              <div 
+                className='absolute inset-0 rounded-full blur-2xl opacity-30'
+                style={{ backgroundColor: brandPink }}
+              />
+              <img 
+                src='/logo.png' 
+                alt='SubText Wallet' 
+                className='relative h-32 w-32 md:h-40 md:w-40 lg:h-48 lg:w-48' 
+              />
+            </div>
+            
+            <div className='space-y-3 text-center'>
+              <h1 className='text-4xl font-bold md:text-5xl lg:text-6xl' style={{ color: brandWhite }}>
+                SubText
+                <br />
+                <span 
+                  className='bg-gradient-to-r bg-clip-text text-transparent'
+                  style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}
+                >
+                  Wallet
+                </span>
+              </h1>
+              <div 
+                className='h-1 w-24 rounded-full mx-auto'
+                style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}
+              />
+            </div>
+          </motion.div>
 
-          <div className='flex justify-center gap-4'>
-            <Button className='text-lg text-black hover:opacity-90' style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}>
-              Comenzar Ahora
-              <ArrowRight className='ml-2 h-5 w-5' />
-            </Button>
-            {/* <Button variant='outline' className='border-white/10 text-lg text-white hover:bg-white/10'>
-              Saber Más
-            </Button> */}
-          </div>
+          {/* Right side - Main Content */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className='space-y-8 text-center lg:col-span-2'
+          >
+            {/* Main Headline */}
+            <div className='space-y-6'>
+              <h2 className='text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-5xl leading-tight'>
+                Polkadot, sin Complicaciones.
+                <br />
+                <span 
+                  className='bg-gradient-to-r bg-clip-text text-transparent'
+                  style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}
+                >
+                  Solo Conversa.
+                </span>
+              </h2>
+              
+              <p className='max-w-xl text-lg text-gray-300 leading-relaxed mx-auto'>
+                Olvídate de la jerga técnica. Gestiona tus activos, 
+                haz transferencias y swaps cross-chain usando lenguaje natural.
+              </p>
+            </div>
+
+            {/* CTA Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className='flex justify-center'
+            >
+              <a 
+                href="https://discord.com/oauth2/authorize?client_id=1378415507794952332" 
+                target="_blank" 
+                className='group relative overflow-hidden rounded-full px-8 py-4 text-lg font-semibold text-black transition-all duration-300 hover:scale-105 hover:shadow-2xl flex items-center gap-3'
+                style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}
+              >
+                <span className='relative z-10'>Comenzar Ahora</span>
+                <ArrowRight className='relative z-10 h-5 w-5 transition-transform group-hover:translate-x-1' />
+                
+                {/* Hover effect overlay */}
+                <div 
+                  className='absolute inset-0 opacity-0 transition-opacity group-hover:opacity-20'
+                  style={{ backgroundColor: brandWhite }}
+                />
+              </a>
+            </motion.div>
+
+            {/* Feature badges */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className='flex flex-wrap justify-center gap-3 pt-4'
+            >
+              {[
+                'Lenguaje Natural',
+                'Cross-Chain',
+                'Seguro & Simple'
+              ].map((feature, i) => (
+                <span 
+                  key={feature}
+                  className='rounded-full border border-white/20 bg-white/5 px-3 py-1 text-sm font-medium text-gray-300 backdrop-blur-sm'
+                >
+                  {feature}
+                </span>
+              ))}
+            </motion.div>
+          </motion.div>
         </motion.div>
       </Container>
     </section>
@@ -218,11 +309,12 @@ function CallToAction() {
               </li>
             ))}
           </ul>
-
-          <Button className='mt-8 text-lg text-black hover:opacity-90' style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}>
-            Únete a Nuestro Discord
-            <ArrowRight className='ml-2 h-5 w-5' />
-          </Button>
+          <div className='mt-8 flex justify-center'>
+            <a href="https://discord.com/oauth2/authorize?client_id=1378415507794952332" target="_blank" className='text-lg text-black hover:opacity-90 p-2 px-4 rounded-full flex items-center' style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}>
+              Únete a Nuestro Discord
+              <ArrowRight className='ml-2 h-5 w-5' />
+            </a>
+          </div>
         </div>
       </Container>
     </section>
@@ -237,7 +329,7 @@ function Footer() {
     <footer className='border-t border-white/10 bg-black py-8'>
       <Container className='flex flex-col items-center justify-between gap-6 md:flex-row md:gap-0'>
         <div className='flex items-center space-x-2'>
-          <Wallet className='h-6 w-6' style={{ color: brandPink }} />
+          <img src='/logo.png' alt='SubText Wallet Logo' className='h-20 w-20' />
           <span className='font-bold'>SubText Wallet</span>
         </div>
 
