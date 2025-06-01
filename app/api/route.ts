@@ -3,6 +3,8 @@ import { handleUserRequest } from './ai/agents/route'; // Adjust the import path
 
 let botInstance: any = null;
 
+export const runtime = 'nodejs'; // Force Node.js runtime
+
 async function startBot() {
   if (botInstance) {
     return { status: 'already running' };
@@ -31,6 +33,8 @@ async function startBot() {
 
       const userId = message.author.id;
       const threadId = message.author.id;
+
+      console.log(`Received message from ${userId} in thread ${threadId}: ${message.content}`);
 
       const response = await handleUserRequest(message.content, threadId, userId);
 
