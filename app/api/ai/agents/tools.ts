@@ -1,62 +1,172 @@
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
-import { LangGraphRunnableConfig } from "@langchain/langgraph"; // Import the config type
+import { LangGraphRunnableConfig } from "@langchain/langgraph";
 
-// import { createReactAgent } from "@langchain/langgraph/prebuilt"; // Not used in this snippet
-// import { initChatModel } from "langchain/chat_models/universal"; // Not used in this snippet
+// Wallet interaction imports
+import { createWalletForUser } from "../../wallet/create";
+import { loadWalletData } from "../../wallet/export";
+import { getAllTokenBalances, getTokenBalanceForUser, UserBalances, TokenBalance } from "../../wallet/balance";
+import { SUPPORTED_TOKENS, TokenInfo } from "../../wallet/supported-tokens";
 
 /**
- * Flight booking tool.
- * Input: { fromAirport: string, toAirport: string }
- * Runtime Args: userId (from config)
- * Output: Confirmation string.
+ * Get general information tool.
+ * Input: nothing
+ * Runtime Args: not used
+ * Output: Information string.
  */
-export const bookFlight = tool(
-  async (
-    input: { fromAirport: string; toAirport: string },
-    config?: LangGraphRunnableConfig
-  ) => {
-    const userId = config?.configurable?.userId as string | undefined; // Access userId
-
-    console.log(`Booking flight for user: ${userId}`);
-    // Placeholder: integrate with real flight API as needed, potentially using userId.
-    return `Successfully booked a flight from ${input.fromAirport} to ${input.toAirport} (User: ${userId || 'Unknown'}).`;
+export const getInfo = tool(
+  async (_input: unknown, _config?: LangGraphRunnableConfig) => {
+    return generalInfo;
   },
   {
-    name: "book_flight",
-    description: "Book a flight from one airport to another.",
+    name: "get_general_info",
+    description: "Retrieve general information about the SubText Wallet services.",
+    schema: z.object({}), // No input required
+  }
+);
+
+const generalInfo = "SubText Wallet is a crypto wallet service that allows you to perform operations on the Polkadot Network, including managing assets and interacting with different parachains.";
+
+/**
+ * Create Wallet tool.
+ * Input: nothing
+ * Runtime Args: userId (from config)
+ * Output: Wallet creation confirmation: Adress, Mnemonic.
+ */
+export const createWallet = tool(
+  async (_input: unknown, config?: LangGraphRunnableConfig) => {
+    const userId = config?.configurable?.userId as string | undefined;
+    if (!userId) {
+      return "Error: User ID is required to create a wallet.";
+    }
+    try {
+      const walletInfo = await createWalletForUser(userId);
+      return `Successfully created wallet for user ${userId}. Address: ${walletInfo.address}. Mnemonic: ${walletInfo.mnemonic}`;
+      // For actual use, you might return walletInfo directly if the agent needs to process it.
+      // return walletInfo;
+    } catch (error: any) {
+      console.error(`Error creating wallet for user ${userId}:`, error);
+      return `Error creating wallet: ${error.message}`;
+    }
+  },
+  {
+    name: "create_wallet",
+    description: "Creates a new Polkadot wallet for the user. The user ID is automatically inferred.",
+    schema: z.object({}),
+  }
+);
+
+/**
+ * Load Wallet Data tool.
+ * Input: nothing (userId is derived from config)
+ * Runtime Args: userId (from config)
+ * Output: Wallet data (mnemonic, address, public key, private key).
+ */
+export const getWalletDetails = tool(
+  async (_input: unknown, config?: LangGraphRunnableConfig) => {
+    const userId = config?.configurable?.userId as string | undefined;
+    if (!userId) {
+      return "Error: User ID is required to load wallet data.";
+    }
+    try {
+      const walletData = await loadWalletData(userId);
+      return `Wallet data for user ${userId}: Address: ${walletData.address}, PublicKey: ${walletData.publicKey}, Mnemonic: ${walletData.mnemonic}, PrivateKey: ${walletData.privateKey}`
+    } catch (error: any) {
+      console.error(`Error loading wallet data for user ${userId}:`, error);
+      return `Error loading wallet data: ${error.message}`;
+    }
+  },
+  {
+    name: "get_wallet_details",
+    description: "Loads and returns the wallet data (address, public key) for the user. The user ID is automatically inferred.",
+    schema: z.object({}),
+  }
+);
+
+/**
+ * Get All Token Balances tool.
+ * Input: nothing (userId is derived from config)
+ * Runtime Args: userId (from config)
+ * Output: UserBalances object or error string.
+ */
+export const listAllTokenBalances = tool(
+  async (_input: unknown, config?: LangGraphRunnableConfig): Promise<UserBalances | string> => {
+    const userId = config?.configurable?.userId as string | undefined;
+    if (!userId) {
+      return "Error: User ID is required to fetch balances.";
+    }
+    try {
+      const balances = await getAllTokenBalances(userId);
+      return balances;
+    } catch (error: any) {
+      console.error(`Error fetching all token balances for user ${userId}:`, error);
+      return `Error fetching all token balances: ${error.message}`;
+    }
+  },
+  {
+    name: "list_all_token_balances",
+    description: "Retrieves all token balances for the supported tokens for the user. The user ID is automatically inferred.",
+    schema: z.object({}),
+  }
+);
+
+/**
+ * Get Specific Token Balance tool.
+ * Input: { tokenSymbol: string, chain: string } (userId is derived from config)
+ * Runtime Args: userId (from config)
+ * Output: TokenBalance object or error string.
+ */
+export const getSpecificTokenBalance = tool(
+  async (input: { tokenSymbol: string; chain: string }, config?: LangGraphRunnableConfig): Promise<TokenBalance | string | null> => {
+    const userId = config?.configurable?.userId as string | undefined;
+    if (!userId) {
+      return "Error: User ID is required to fetch token balance.";
+    }
+    try {
+      const balance = await getTokenBalanceForUser(userId, input.tokenSymbol, input.chain);
+      return balance;
+    } catch (error: any) {
+      console.error(`Error fetching token balance for ${input.tokenSymbol} on ${input.chain} for user ${userId}:`, error);
+      return `Error fetching token balance: ${error.message}`;
+    }
+  },
+  {
+    name: "get_specific_token_balance",
+    description: "Retrieves the balance for a specific token on a specific chain for the user. The user ID is automatically inferred.",
     schema: z.object({
-      fromAirport: z
-        .string()
-        .describe("The departure airport code (e.g., 'BOS')"),
-      toAirport: z
-        .string()
-        .describe("The arrival airport code (e.g., 'JFK')"),
+      tokenSymbol: z.string().describe("The symbol of the token (e.g., 'PAS', 'DOT', 'HDX')"),
+      chain: z.string().describe("The chain name where the token resides (e.g., 'paseo', 'paseo-asset-hub', 'hydradx-paseo')"),
     }),
   }
 );
 
 /**
- * Hotel booking tool.
- * Input: { hotelName: string }
- * Runtime Args: userId (from config)
- * Output: Confirmation string.
+ * List Supported Tokens tool.
+ * Input: nothing
+ * Output: Array of TokenInfo objects.
  */
-export const bookHotel = tool(
-  async (
-    input: { hotelName: string },
-    config?: LangGraphRunnableConfig
-  ) => {
-    const userId = config?.configurable?.userId as string | undefined; // Access userId
-    console.log(`Booking hotel for user: ${userId}`);
-    // Placeholder: integrate with real hotel API as needed.
-    return `Successfully booked a stay at ${input.hotelName} (User: ${userId || 'Unknown'}).`;
+export const listSupportedTokens = tool(
+  async (_input: unknown, _config?: LangGraphRunnableConfig): Promise<TokenInfo[]> => {
+    try {
+      return SUPPORTED_TOKENS;
+    } catch (error: any) {
+      console.error(`Error listing supported tokens:`, error);
+      // This case should ideally not happen as SUPPORTED_TOKENS is a static import.
+      return [];
+    }
   },
   {
-    name: "book_hotel",
-    description: "Book a hotel stay for a given hotel name.",
-    schema: z.object({
-      hotelName: z.string().describe("The name of the hotel to book"),
-    }),
+    name: "list_supported_tokens",
+    description: "Lists all crypto tokens supported by the wallet, along with their details like symbol, chain, and type.",
+    schema: z.object({}),
   }
 );
+
+// You would then export these tools for your agent:
+export const subtextWalletTools = [
+  createWallet,
+  getWalletDetails,
+  listAllTokenBalances,
+  getSpecificTokenBalance,
+  listSupportedTokens,
+];

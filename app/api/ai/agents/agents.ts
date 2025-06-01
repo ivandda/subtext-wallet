@@ -1,5 +1,5 @@
 import { createReactAgent } from "@langchain/langgraph/prebuilt";
-import { bookFlight, bookHotel } from "./tools";
+import { subtextWalletTools, getInfo } from "./tools"; // Import all wallet tools and getInfo
 import { initChatModel } from "langchain/chat_models/universal";
 
 if (!process.env.OPENAI_API_KEY) {
@@ -8,16 +8,21 @@ if (!process.env.OPENAI_API_KEY) {
 
 export const llm = await initChatModel("openai:gpt-4.1-mini");
 
-export const flightAgent = createReactAgent({
+// Wallet Agent with access to all subtextWalletTools
+export const walletAgent = createReactAgent({
   llm,
-  tools: [bookFlight],
-  prompt: "You are a flight booking assistant. Always use the book_flight tool when booking flights.",
-  name: "flight_assistant",
+  tools: subtextWalletTools, // Use the comprehensive list of wallet tools
+  prompt: `You are a specialized assistant for SubText Wallet.
+You can help users create wallets, check balances, list supported tokens, and get general information about the wallet.
+Always infer the userId from the configuration when a tool requires it.
+Be clear and concise in your responses. If a tool returns sensitive information (like mnemonics), confirm the action was successful but do not display the sensitive data directly in your response to the user, instead, mention that it's available through other secure means if applicable.`,
+  name: "subtext_wallet_assistant",
 });
 
-export const hotelAgent = createReactAgent({
+
+export const infoAgent = createReactAgent({
   llm,
-  tools: [bookHotel],
-  prompt: "You are a hotel booking assistant. Always use the book_hotel tool when booking hotels.",
-  name: "hotel_assistant",
+  tools: [getInfo],
+  prompt: "You are an information assistant for SubText Wallet. Use the get_general_info tool to provide general information when asked.",
+  name: "info_assistant",
 });
