@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { handleUserRequest } from './ai/agents/route'; // Adjust the import path as needed
 
 let botInstance: any = null;
 
@@ -31,7 +32,9 @@ async function startBot() {
       const userId = message.author.id;
       const threadId = message.author.id;
 
-      await message.reply(`Usar userId: @${userId}, threadId: ${threadId} and message: ${message.content} for the LLM integration.`);
+      const response = await handleUserRequest(message.content, threadId, userId);
+
+      await message.reply(response);
     });
 
     client.on('error', (error) => {

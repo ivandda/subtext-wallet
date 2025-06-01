@@ -9,7 +9,7 @@ type RequestBody = {
   userId: string; // Added userId
 };
 
-async function handleUserRequest(message: string, threadId: string, userId: string) {
+export async function handleUserRequest(message: string, threadId: string, userId: string) {
   // Wrap the user’s text as a LangChain HumanMessage
   const messages = [new HumanMessage({ content: message })];
 

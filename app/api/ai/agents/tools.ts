@@ -41,7 +41,7 @@ export const createWallet = tool(
     }
     try {
       const walletInfo = await createWalletForUser(userId);
-      return `Successfully created wallet for user ${userId}. Address: ${walletInfo.address}. Mnemonic: ${walletInfo.mnemonic}`;
+      return `Successfully created wallet for user ${userId}. Address: ${walletInfo.address}.`;
       // For actual use, you might return walletInfo directly if the agent needs to process it.
       // return walletInfo;
     } catch (error: any) {
