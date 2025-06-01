@@ -232,7 +232,7 @@ function Roadmap() {
   const roadmapItems = [
     {
       title: 'Q1: Lanzamiento MVP',
-      description: 'MVP en Discord: Creación de wallet, consulta de saldo y transferencias on-chain mediante chat.',
+      description: 'MVP en Discord: Creación de wallet, consulta de saldo, transferencias on-chain y bridges cross-chain mediante chat.',
       color: brandWhite,
     },
     {
