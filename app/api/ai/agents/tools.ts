@@ -191,10 +191,12 @@ export const listSupportedTokens = tool(
 export const listSupportedChains = tool(
   async (_input: unknown, _config?: LangGraphRunnableConfig): Promise<{chainId: string, chainName: string}[]> => {
     try {
-      return new Set(SUPPORTED_TOKENS.map(token => ({
-        chainId: token.chain.toLowerCase(),
-        chainName: token.chainVerbose ?? token.chain
-      }))).values().toArray();
+      const chains = new Map();
+      SUPPORTED_TOKENS.forEach(token => {
+        chains.set(token.chain.toLowerCase(), token.chainVerbose ?? token.chain);
+      });
+      
+      return Array.from(chains, ([chainId, chainName]) => ({ chainId, chainName }));
     } catch (error: any) {
       console.error(`Error listing supported chains:`, error);
       // This case should ideally not happen as SUPPORTED_TOKENS is a static import.
