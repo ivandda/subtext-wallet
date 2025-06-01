@@ -2,6 +2,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { SUPPORTED_TOKENS } from './supported-tokens';
 import { exportWalletKeys } from './export';
 import { getTokenBalanceForUser } from './balance';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 export const sendTransfer = async (  userId: string,
   tokenSymbol: string,
@@ -14,6 +15,8 @@ export const sendTransfer = async (  userId: string,
   } 
 
   let token: any; 
+
+  await cryptoWaitReady(); // inicializa crypto WASM
 
   for (const t of tokens) {
     // check balance in that chain
@@ -56,5 +59,8 @@ export const sendTransfer = async (  userId: string,
 
   await api.disconnect();
 
-  return hash.toHex();
+  return {
+    trasactionHash: hash.toHex(),
+    chain: token.chain,
+  }
 };

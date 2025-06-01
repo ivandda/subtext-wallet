@@ -7,6 +7,7 @@ import { createWalletForUser } from "../../wallet/create";
 import { loadWalletData } from "../../wallet/export";
 import { getAllTokenBalances, getTokenBalanceForUser, UserBalances, TokenBalance } from "../../wallet/balance";
 import { SUPPORTED_TOKENS, TokenInfo } from "../../wallet/supported-tokens";
+import { sendTransfer } from "../../wallet/transfer";
 
 /**
  * Get general information tool.
@@ -149,7 +150,7 @@ export const getSpecificTokenBalance = tool(
  * Output: A link to the faucet
  */
 export const getFaucet = tool(
-  async (_input: unknown, _config?: LangGraphRunnableConfig): Promise<String> => {
+  async (_input: unknown, _config?: LangGraphRunnableConfig): Promise<string> => {
     return 'https://faucet.polkadot.io';
   },
   {
@@ -181,6 +182,37 @@ export const listSupportedTokens = tool(
   }
 );
 
+/**
+ * Create a trasfer
+ * Input: { tokenSymbol: string, to: string, amountHuman: number } (userId is derived from config)
+ * Output: Transaction hash or error string.
+ */
+export const createTransfer = tool(
+  async (input: {tokenSymbol: string, to: string, amountHuman: number}, config?: LangGraphRunnableConfig): Promise<string> => {
+    const userId = config?.configurable?.userId as string | undefined;
+    if (!userId) {
+      return "Error: User ID is required to create a transfer.";
+    }
+    try {
+      const transferResult = await sendTransfer(userId, input.tokenSymbol, input.to, input.amountHuman);
+      const link = `https://${transferResult.chain}.subscan.io/extrinsic/${transferResult.trasactionHash}`;
+      return `Transfer to ${input.to} of ${input.amountHuman} ${input.tokenSymbol} was successful! Transaction hash: ${transferResult.trasactionHash}. You can view it here: ${link}`;
+    } catch (error: any) {
+      console.error(`Error creating transfer for user ${userId}:`, error);
+      return `Error creating transfer: ${error.message}`;
+    }
+  },
+  {
+    name: "create_transfer",
+    description: "Creates a transfer of tokens from the user's wallet to another address. The user ID is automatically inferred.",
+    schema: z.object({
+      tokenSymbol: z.string().describe("The symbol of the token (e.g., 'PAS', 'DOT', 'HDX')"),
+      to: z.string().describe("The recipient address to which the tokens will be sent."),
+      amountHuman: z.number().describe("The amount of tokens to send (e.g., 10.5 for 10.5 PAS)."),
+    }),
+  }
+);
+
 // You would then export these tools for your agent:
 export const subtextWalletTools = [
   createWallet,
@@ -189,4 +221,5 @@ export const subtextWalletTools = [
   getSpecificTokenBalance,
   getFaucet,
   listSupportedTokens,
+  createTransfer
 ];

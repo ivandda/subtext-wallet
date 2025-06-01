@@ -30,7 +30,7 @@ export const SUPPORTED_TOKENS: TokenInfo[] = [
   },
   {
     symbol: "PAS", // PAS on Asset Hub (paseo-asset-hub, parachainId 1000)
-    chain: "paseo-asset-hub",
+    chain: "assethub-paseo",
     rpc: "wss://asset-hub-paseo-rpc.dwellir.com",
     type: "native",
     decimals: 10,
