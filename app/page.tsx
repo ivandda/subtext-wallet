@@ -231,24 +231,63 @@ function Features() {
 function Roadmap() {
   const roadmapItems = [
     {
-      title: 'Q1: Lanzamiento MVP',
-      description: 'MVP en Discord: Creación de wallet, consulta de saldo, transferencias on-chain y bridges cross-chain mediante chat.',
-      color: brandWhite,
+      phase: 'Disponible Ahora',
+      title: 'Funciones Principales',
+      features: [
+        'Creación de wallet mediante chat',
+        'Consulta de saldo de tokens',
+        'Link a faucet para obtener tokens de prueba',
+        'Transferencias on-chain',
+        'Bridges cross-chain (XCM)',
+        'Swaps con provedor externo',
+        'Integración completa con Discord'
+      ],
+      status: 'current',
+      color: brandPink,
+      gradient: `linear-gradient(135deg, ${brandPink}, ${brandPurple})`,
     },
     {
-      title: 'Q2: Funcionalidades Avanzadas',
-      description: 'Integración de Staking y Swaps XCM. Primeros pasos para la expansión a Telegram.',
-      color: brandWhite,
+      phase: 'En Desarrollo',
+      title: 'Funcionalidades Avanzadas',
+      features: [
+        'Staking automático de DOT',
+        'Swaps cross-chain (XCM) en el chat',
+        'Gestión de nominaciones',
+        'Expansión inicial a Telegram',
+        'Optimización de fees'
+      ],
+      status: 'next',
+      color: brandPurple,
+      gradient: `linear-gradient(135deg, ${brandPurple}90, ${brandPink}90)`,
     },
     {
-      title: 'Q3: IA Mejorada y Expansión',
-      description: 'Mejoras avanzadas en IA para comprensión del lenguaje natural. Optimización de fees. Beta en WhatsApp.',
-      color: brandWhite,
+      phase: 'Próximamente',
+      title: 'IA Mejorada y Expansión',
+      features: [
+        'Comprensión avanzada de lenguaje natural',
+        'Predicción inteligente de intenciones',
+        'Beta en WhatsApp',
+        'Soporte para más parachains',
+        'Análisis de rendimiento de portfolios',
+        'Integracion con On-Ramp y Off-Ramp'
+      ],
+      status: 'next',
+      color: `${brandPink}80`,
+      gradient: `linear-gradient(135deg, ${brandPink}80, ${brandPurple}80)`,
     },
     {
-      title: 'Q4: Consolidación y Crecimiento',
-      description: 'Consolidación de la plataforma, soporte para más parachains y crecimiento de la comunidad de usuarios.',
-      color: brandWhite,
+      phase: 'Visión Futura',
+      title: 'Consolidación y Crecimiento',
+      features: [
+        'Plataforma multi-mensajería completa',
+        'Soporte para todo el ecosistema Polkadot',
+        'Herramientas DeFi avanzadas',
+        'Integración con dApps populares',
+        'Comunidad global de usuarios'
+      ],
+      status: 'future',
+      color: `${brandPurple}80`,
+      gradient: `linear-gradient(135deg, ${brandPurple}70, ${brandPink}70)`,
     },
   ];
 
@@ -256,25 +295,82 @@ function Roadmap() {
     <section id='roadmap' className='border-t border-white/10 bg-black py-24'>
       <Container>
         <header className='mb-16 text-center'>
-          <h2 className='text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl'>Nuestra Hoja de Ruta</h2>
-          <p className='mt-4 text-gray-400'>Los próximos pasos para SubText Wallet.</p>
+          <h2 className='text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl'>Nuestra Evolución</h2>
+          <p className='mt-4 text-gray-400'>De la version 1.0 a evolución tecnologica: el futuro de SubText Wallet.</p>
         </header>
 
-        <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-          {roadmapItems.map((item, i) => (
-            <motion.article
-              key={item.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className='group rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-colors'
-              style={{ ['--tw-border-opacity' as any]: 0.5, borderColor: item.color }}
-            >
-              <h3 className='mb-2 text-xl font-bold'>{item.title}</h3>
-              <p className='text-gray-400'>{item.description}</p>
-            </motion.article>
-          ))}
+        <div className='relative'>
+          {/* Timeline line */}
+          <div className='absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-gradient-to-b from-white/30 via-white/20 to-transparent hidden lg:block' />
+          
+          <div className='space-y-12 lg:space-y-16'>
+            {roadmapItems.map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.2 }}
+                className={`relative flex flex-col lg:flex-row lg:items-center gap-8 ${
+                  i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
+                }`}
+              >
+                {/* Timeline dot */}
+                <div className='absolute left-1/2 top-8 -translate-x-1/2 h-6 w-6 rounded-full border-4 border-black hidden lg:block'
+                     style={{ background: item.gradient }} />
+
+                {/* Content card */}
+                <div className={`flex-1 ${i % 2 === 0 ? 'lg:pr-12' : 'lg:pl-12'}`}>
+                  <div className='relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm group hover:border-white/20 transition-all duration-300'>
+                    {/* Background gradient */}
+                    <div 
+                      className='absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-300'
+                      style={{ background: item.gradient }}
+                    />
+                    
+                    <div className='relative'>
+                      {/* Phase badge */}
+                      <div className='inline-flex items-center gap-2 mb-4'>
+                        <span 
+                          className={`inline-block h-2 w-2 rounded-full ${
+                            item.status === 'current' ? 'animate-pulse' : ''
+                          }`}
+                          style={{ background: item.status === 'current' ? brandPink : 'rgba(255,255,255,0.4)' }}
+                        />
+                        <span className='text-sm font-medium text-gray-300 uppercase tracking-wider'>
+                          {item.phase}
+                        </span>
+                      </div>
+
+                      <h3 className='text-2xl font-bold mb-6' style={{ 
+                        color: item.status === 'current' ? brandWhite : '#e5e7eb' 
+                      }}>
+                        {item.title}
+                      </h3>
+                      
+                      {/* Features list */}
+                      <ul className='space-y-3'>
+                        {item.features.map((feature, idx) => (
+                          <li key={idx} className='flex items-center text-gray-300'>
+                            <CheckCircle2 
+                              className='mr-3 h-4 w-4 flex-shrink-0' 
+                              style={{ 
+                                color: item.color 
+                              }} 
+                            />
+                            <span className='text-sm'>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Spacer for alternating layout */}
+                <div className='flex-1 hidden lg:block' />
+              </motion.div>
+            ))}
+          </div>
         </div>
       </Container>
     </section>
