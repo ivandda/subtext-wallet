@@ -436,7 +436,7 @@ function CallToAction() {
           </ul>
           <div className='mt-8 flex justify-center'>
             <a href="https://discord.com/oauth2/authorize?client_id=1378415507794952332" target="_blank" className='text-lg text-black hover:opacity-90 p-2 px-4 rounded-full flex items-center' style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}>
-              Únete a Nuestro Discord
+              Sumá la wallet a tu Discord
               <ArrowRight className='ml-2 h-5 w-5' />
             </a>
           </div>
