@@ -173,6 +173,35 @@ function Hero() {
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
+//  Pitch and Demo
+// ──────────────────────────────────────────────────────────────────────────────
+function PitchAndDemo() {
+  return (
+    <section id='pitch-demo' className='border-t border-white/10 bg-black py-24'>
+      <Container>
+        <header className='mb-16 text-center'>
+          <h2 className='text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl'>Pitch y Demo</h2>
+          <p className='mt-4 text-gray-400'>Descubre cómo SubText Wallet revoluciona tu interacción con Polkadot.</p>
+        </header>
+
+        <div className='mx-auto max-w-4xl'>
+          <div className='aspect-video overflow-hidden rounded-xl shadow-2xl'>
+            <iframe
+              className='h-full w-full'
+              src='https://www.loom.com/embed/de37f48669634bb0b2832571439d8324?sid=b97de916-6c8a-4c44-91af-ccf44d1fa36d'
+              title='SubText Wallet Pitch and Demo Video'
+              frameBorder='0'
+              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+              allowFullScreen
+            />
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
 //  Features                                                                     
 // ──────────────────────────────────────────────────────────────────────────────
 function Features() {
@@ -546,6 +575,7 @@ export default function HomePage() {
 
       <main className='flex flex-col'>
         <Hero />
+        <PitchAndDemo />
         <Features />
         <Roadmap />
         <CallToAction />
