@@ -45,7 +45,7 @@ const allTools = [...subtextWalletTools];
 export const subtextAgent = createReactAgent({
   llm,
   tools: allTools,
-  prompt: `You are the SubText Wallet AI assistant.
+  prompt: `You are the SubText Wallet.
 You are responsible for all tasks including:
 - Creating wallets. 
 - Add tokens to wallet.
