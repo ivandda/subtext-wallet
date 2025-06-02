@@ -110,20 +110,5 @@ Detrás de escena, el bot interpreta el comando, usa la API correspondiente (pol
 
 ## 🔗 Enlace al Proyecto
 
-[SubText Wallet (Live)](https://ejemplo.com/subtext-wallet)  
+[SubText Wallet (Live)]([https://ejemplo.com/subtext-wallet](https://subtext-wallet-production.up.railway.app))  
 
-*(Reemplaza la URL de ejemplo con la dirección real de tu despliegue)*
-
----
-
-## 📌 Cómo Contribuir
-
-1. Haz un **fork** de este repositorio.  
-2. Crea una **rama** nueva (`git checkout -b feature/nueva-funcionalidad`).  
-3. Realiza tus cambios y haz **commit** (`git commit -m "Agrega nueva funcionalidad"`).  
-4. Sube tus cambios al **remoto** (`git push origin feature/nueva-funcionalidad`).  
-5. Abre un **Pull Request** describiendo tus modificaciones.  
-
-¡Gracias por tu interés en _SubText Wallet_! Con tu ayuda podemos llevar la tecnología de Polkadot a cada vez más personas.
-
----
