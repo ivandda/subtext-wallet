@@ -110,5 +110,5 @@ Detrás de escena, el bot interpreta el comando, usa la API correspondiente (pol
 
 ## 🔗 Enlace al Proyecto
 
-[SubText Wallet (Live)]([https://ejemplo.com/subtext-wallet](https://subtext-wallet-production.up.railway.app))  
+[SubText Wallet (Live)](https://subtext-wallet-production.up.railway.app)  
 
