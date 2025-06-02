@@ -1,72 +1,128 @@
 # SubText Wallet
 
-SubText Wallet es una wallet conversacional basada en Discord que permite a cualquier persona interactuar con el ecosistema Polkadot usando lenguaje natural, sin necesidad de conocimientos técnicos sobre blockchain.
+_SubText Wallet_ es una wallet conversacional basada en Discord que permite a cualquier persona interactuar con el ecosistema Polkadot usando lenguaje natural, sin necesidad de conocimientos técnicos sobre blockchain.  
 El espíritu de este proyecto es hacer que la tecnología de Polkadot sea accesible a TODO el mundo.
 
-## Problema
+---
+
+## 📺 Demo Video
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1ZDrc7Hxjew?si=18Kt-pMQ8XzLoHVF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+---
+
+## 🛠️ Problema
 
 Aunque Polkadot ofrece capacidades avanzadas como interoperabilidad, seguridad compartida, escalabilidad y gobernanza on-chain, su adopción se ve limitada por su complejidad técnica:
 
-*   Construcción, firma y envío de extrinsics.
-*   Cálculo correcto de transaction fees.
-*   Confusión entre formatos de direcciones (SS58 vs. Ethereum-style).
-*   Swaps cross-chain (XCM) complejos y fragmentados.
-*   Wallets técnicas o con interfaces intimidadoras para el usuario promedio.
+- Construcción, firma y envío de extrinsics.
+- Cálculo correcto de transaction fees.
+- Confusión entre formatos de direcciones (SS58 vs. Ethereum-style).
+- Swaps cross-chain (XCM) complejos y fragmentados.
+- Wallets técnicas o con interfaces intimidatorias para el usuario promedio.
 
-## Solución
+---
 
-SubText es la primera Wallet inteligente de Polkadot, que resuelve estas fricciones usando multiples agentes de IA vía un simple chat. Permite realizar operaciones clave del ecosistema Polkadot con comandos naturales como:
+## 💡 Solución
 
-*   `crear mi wallet`
-*   `¿cuánta plata tengo?`
-*   `mandá 2 DOT a 0xABC...`
-*   `cambiá 10 GLMR a ACA`
-*   `exportar mi clave`
+_SubText Wallet_ es la primera wallet inteligente de Polkadot, que resuelve estas fricciones usando múltiples agentes de IA vía un simple chat en Discord. Permite realizar operaciones clave del ecosistema Polkadot con comandos naturales, por ejemplo:
+
+- `crear mi wallet`
+- `¿cuánto tengo?`
+- `mandá 2 DOT a 0xABC...`
+- `cambiá 10 GLMR a ACA`
+- `exportar mi clave`
 
 Detrás de escena, el bot interpreta el comando, usa la API correspondiente (polkadot.js, XCM) y ejecuta las operaciones de forma segura y transparente.
 
-## Funcionalidades (V1.0 en Discord)
+---
 
-1.  **Crear Wallet**
-    *   Generación segura de seed phrase y dirección.
-    *   Address se comparte al usuario de Discord y cifrado local de la seed.
-2.  **Consultar Balance**
-    *   Lectura on-chain usando todas las parachains soportadas para dar una respuesta concisa al usuario.
-    *   Muestra saldo disponible, bloqueado, reservado de cada token en cada chain.
-3.  **Transferencia on-chain**
-    *   Interpreta montos, tokens y direcciones.
-    *   Construye y firma la transacción.
-    *   Estima gas fees y devuelve el hash de confirmación.
-4.  **Bridge Cross-Chain (XCM)**
-    *   Detecta red de origen/destino.
-    *   Usa pallets como `xcmPallet.reserveTransferAssets` o bridges disponibles.
-    *   Calcula fees totales y realiza el bridge con confirmación.
-    *   Tokens soportados actualmente: PAS (DOT en testnet) y HDX.
-5.  **Exportar Clave Privada**
-    *   Solicita confirmación y muestra advertencias de seguridad.
+## 🚀 Funcionalidades (V1.0 en Discord)
 
-## Tech Stack
+1. **Crear Wallet**  
+   - Generación segura de seed phrase y dirección.  
+   - La dirección (address) se comparte al usuario de Discord y la seed queda cifrada localmente.  
 
-*   **Frontend**: Discord Bot (Next.js + AI/NLP Layer)
-*   **Backend**: polkadot.js API + Key Management en un postgres DB hosteado en Supabase
-*   **Infraestructura**: Railway (hosting), almacenamiento seguro de seeds en base de datos (Supabase)
-*   **AI**: API de OpenAI para interpretación de lenguaje natural, LangChain, LangGraph
+2. **Consultar Balance**  
+   - Lectura on-chain usando todas las parachains soportadas para dar una respuesta concisa al usuario.  
+   - Muestra saldo disponible, bloqueado y reservado de cada token en cada chain.  
 
-## Roadmap Futuro
+3. **Transferencia on-chain**  
+   - Interpreta montos, tokens y direcciones.  
+   - Construye y firma la transacción.  
+   - Estima gas fees y devuelve el hash de confirmación.  
 
-*   Soporte para otros canales: Telegram, WhatsApp, WebApp, WeChat
-*   Funcionalidades avanzadas: staking, nominación de validadores, governance voting.
-*   Integración con parachains específicas para DEX o DeFi.
-*   Mejora continua del agente conversacional con feedback del usuario.
-*   Escalar la arquitectura para múltiples usuarios concurrentes.
-*   Implementar sistema de rate limiting y prevención de spam.
+4. **Bridge Cross-Chain (XCM)**  
+   - Detecta red de origen y destino automáticamente.  
+   - Utiliza pallets como `xcmPallet.limitedReserveTransferAssets` o bridges disponibles.  
+   - Calcula fees totales y realiza el bridge con confirmación al usuario.  
+   - Tokens soportados actualmente:  
+     - **PAS** (DOT en testnet)  
+     - **HDX**  
 
-## Estado Actual
+5. **Exportar Clave Privada**  
+   - Solicita confirmación antes de exponer la clave.  
+   - Muestra advertencias de seguridad y elimina riesgos de exposición.
 
-*   ✅ En funcionamiento sobre testnet con PAS y HDX
-*   ⚙️ Arquitectura lista para escalar y recibir mejoras
-*   Bot de Discord activo para cualquier server
+---
 
-## Enlace al Proyecto
+## 🧩 Tech Stack
 
-[SubText Wallet (Live)](https://discord.gg/UTj2Av32)
+- **Frontend**:  
+  - Discord Bot construido con **Next.js**  
+- **Backend**:  
+  - Agentes de IA/NLP  
+  - **polkadot.js API** + Key Management (Next.js)  
+- **Infraestructura**:  
+  - **Railway** (hosting)  
+  - Almacenamiento seguro de seeds en base de datos (**Supabase PostgreSQL**)  
+- **AI/NLP**:  
+  - API de **OpenAI** para interpretación de lenguaje natural  
+  - **LangChain**, **LangGraph**  
+
+---
+
+## 📅 Roadmap Futuro
+
+- **Soporte para otros canales**:  
+  - Telegram, WhatsApp, WebApp.  
+- **Funcionalidades avanzadas**:  
+  - Staking, nominación de validadores, governance voting.  
+- **Integración con parachains específicas**:  
+  - DEX, DeFi, y otras aplicaciones en Polkadot.  
+- **Mejora continua del agente conversacional**:  
+  - Incorporar feedback del usuario para un chat cada vez más natural.  
+- **Escalar la arquitectura**:  
+  - Soportar múltiples usuarios concurrentes sin perder eficiencia.  
+- **Seguridad y prevención de spam**:  
+  - Implementar rate limiting, verificación adicional y sistemas antispam.
+
+---
+
+## 🔄 Estado Actual
+
+- ✅ **En funcionamiento sobre testnet** con PAS y HDX  
+- ⚙️ **Arquitectura lista para escalar** y recibir mejoras  
+- 🤖 Bot de Discord **activo para cualquier server**  
+- Próximos pasos: Registro de usuarios en producción y migración a tokens reales en Mainnet.
+
+---
+
+## 🔗 Enlace al Proyecto
+
+[SubText Wallet (Live)](https://ejemplo.com/subtext-wallet)  
+
+*(Reemplaza la URL de ejemplo con la dirección real de tu despliegue)*
+
+---
+
+## 📌 Cómo Contribuir
+
+1. Haz un **fork** de este repositorio.  
+2. Crea una **rama** nueva (`git checkout -b feature/nueva-funcionalidad`).  
+3. Realiza tus cambios y haz **commit** (`git commit -m "Agrega nueva funcionalidad"`).  
+4. Sube tus cambios al **remoto** (`git push origin feature/nueva-funcionalidad`).  
+5. Abre un **Pull Request** describiendo tus modificaciones.  
+
+¡Gracias por tu interés en _SubText Wallet_! Con tu ayuda podemos llevar la tecnología de Polkadot a cada vez más personas.
+
+---
