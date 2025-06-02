@@ -7,7 +7,8 @@ El espíritu de este proyecto es hacer que la tecnología de Polkadot sea accesi
 
 ## 📺 Demo Video
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/1ZDrc7Hxjew?si=18Kt-pMQ8XzLoHVF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+https://github.com/user-attachments/assets/fe67c057-ab83-4ded-ad6c-40bee5bc5439
+
 ---
 
 ## 🛠️ Problema
