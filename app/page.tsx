@@ -575,7 +575,7 @@ export default function HomePage() {
 
       <main className='flex flex-col'>
         <Hero />
-        <PitchAndDemo />
+        {/*<PitchAndDemo />*/}
         <Features />
         <Roadmap />
         <CallToAction />
