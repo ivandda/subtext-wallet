@@ -29,14 +29,17 @@
 
 import { createReactAgent } from "@langchain/langgraph/prebuilt";
 import { subtextWalletTools, getInfo } from "./tools"; // Import all wallet tools and getInfo
-import { initChatModel } from "langchain/chat_models/universal";
+// import { initChatModel } from "langchain/chat_models/universal";
+import { ChatOpenAI } from "@langchain/openai";
 import { checkpointer } from "./checkpointer"; // Import the checkpointer
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("OPENAI_API_KEY must be set in .env.local");
 }
 
-export const llm = await initChatModel("openai:gpt-4.1-mini");
+export const llm = new ChatOpenAI({
+  model: "gpt-4o-mini",
+});
 
 // Combine all tools for the single agent
 const allTools = [...subtextWalletTools];
