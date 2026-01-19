@@ -26,7 +26,7 @@ const nextConfig = {
         path: false,
       };
     }
-    
+
     // Ignore .node files
     config.module.rules.push({
       test: /\.node$/,
@@ -36,9 +36,7 @@ const nextConfig = {
     return config;
   },
   // Ensure the API routes run on server-side only
-  experimental: {
-    serverComponentsExternalPackages: ['discord.js'],
-  },
+  serverExternalPackages: ['discord.js'],
 };
 
 module.exports = nextConfig;
