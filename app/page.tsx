@@ -1,9 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, CheckCircle2, LineChart, Lock, Wallet } from 'lucide-react'
 import Link from 'next/link'
 import { Poppins } from 'next/font/google'
+import { RequestAccessModal } from '@/components/request-access-modal'
 
 // ──────────────────────────────────────────────────────────────────────────────
 //  Brand settings
@@ -20,7 +22,7 @@ const Container = ({ children, className = '' }: React.PropsWithChildren<{ class
 // ──────────────────────────────────────────────────────────────────────────────
 //  Navbar                                                                       
 // ──────────────────────────────────────────────────────────────────────────────
-function Navbar() {
+function Navbar({ onOpenModal }: { onOpenModal: () => void }) {
   return (
     <header className='fixed inset-x-0 top-0 z-50 h-20 border-b border-white/10 bg-black/60 backdrop-blur-xl'>
       <Container className='flex h-full items-center justify-between'>
@@ -32,11 +34,15 @@ function Navbar() {
 
         <nav className='flex items-center space-x-4'>
           <div className='flex justify-center gap-4'>
-            <a href="https://discord.com/oauth2/authorize?client_id=1378415507794952332" target="_blank" className='text-lg text-black hover:opacity-90 p-2 px-4 rounded-full flex items-center' style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}>
-              Comenzar 
+            <button
+              onClick={onOpenModal}
+              className='text-lg text-black hover:opacity-90 p-2 px-4 rounded-full flex items-center transition-opacity'
+              style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}
+            >
+              Comenzar
               <ArrowRight className='ml-2 h-5 w-5' />
-            </a>
-            </div>
+            </button>
+          </div>
         </nav>
       </Container>
     </header>
@@ -46,7 +52,7 @@ function Navbar() {
 // ──────────────────────────────────────────────────────────────────────────────
 //  Hero                                                                         
 // ──────────────────────────────────────────────────────────────────────────────
-function Hero() {
+function Hero({ onOpenModal }: { onOpenModal: () => void }) {
   return (
     <section id='hero' className='relative flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center overflow-hidden pt-30'>
       <AnimatedBackdrop />
@@ -66,29 +72,29 @@ function Hero() {
             className='flex flex-col items-center space-y-6 lg:col-span-1'
           >
             <div className='relative'>
-              <div 
+              <div
                 className='absolute inset-0 rounded-full blur-2xl opacity-30'
                 style={{ backgroundColor: brandPink }}
               />
-              <img 
-                src='/logo.png' 
-                alt='SubText Wallet' 
-                className='relative h-32 w-32 md:h-40 md:w-40 lg:h-48 lg:w-48' 
+              <img
+                src='/logo.png'
+                alt='SubText Wallet'
+                className='relative h-32 w-32 md:h-40 md:w-40 lg:h-48 lg:w-48'
               />
             </div>
-            
+
             <div className='space-y-3 text-center'>
               <h1 className='text-4xl font-bold md:text-5xl lg:text-6xl' style={{ color: brandWhite }}>
                 SubText
                 <br />
-                <span 
+                <span
                   className='bg-gradient-to-r bg-clip-text text-transparent'
                   style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}
                 >
                   Wallet
                 </span>
               </h1>
-              <div 
+              <div
                 className='h-1 w-24 rounded-full mx-auto'
                 style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}
               />
@@ -107,16 +113,16 @@ function Hero() {
               <h2 className='text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-5xl leading-tight'>
                 Polkadot, sin Complicaciones.
                 <br />
-                <span 
+                <span
                   className='bg-gradient-to-r bg-clip-text text-transparent'
                   style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}
                 >
                   Solo Conversa.
                 </span>
               </h2>
-              
+
               <p className='max-w-xl text-lg text-gray-300 leading-relaxed mx-auto'>
-                Olvídate de la jerga técnica. Gestiona tus activos, 
+                Olvídate de la jerga técnica. Gestiona tus activos,
                 haz transferencias y swaps cross-chain usando lenguaje natural.
               </p>
             </div>
@@ -128,21 +134,20 @@ function Hero() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className='flex justify-center'
             >
-              <a 
-                href="https://discord.com/oauth2/authorize?client_id=1378415507794952332" 
-                target="_blank" 
+              <button
+                onClick={onOpenModal}
                 className='group relative overflow-hidden rounded-full px-8 py-4 text-lg font-semibold text-black transition-all duration-300 hover:scale-105 hover:shadow-2xl flex items-center gap-3'
                 style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}
               >
                 <span className='relative z-10'>Comenzar Ahora</span>
                 <ArrowRight className='relative z-10 h-5 w-5 transition-transform group-hover:translate-x-1' />
-                
+
                 {/* Hover effect overlay */}
-                <div 
+                <div
                   className='absolute inset-0 opacity-0 transition-opacity group-hover:opacity-20'
                   style={{ backgroundColor: brandWhite }}
                 />
-              </a>
+              </button>
             </motion.div>
 
             {/* Feature badges */}
@@ -157,7 +162,7 @@ function Hero() {
                 'Cross-Chain',
                 'Seguro & Simple'
               ].map((feature, i) => (
-                <span 
+                <span
                   key={feature}
                   className='rounded-full border border-white/20 bg-white/5 px-3 py-1 text-sm font-medium text-gray-300 backdrop-blur-sm'
                 >
@@ -331,7 +336,7 @@ function Roadmap() {
         <div className='relative'>
           {/* Timeline line */}
           <div className='absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-gradient-to-b from-white/30 via-white/20 to-transparent hidden lg:block' />
-          
+
           <div className='space-y-12 lg:space-y-16'>
             {roadmapItems.map((item, i) => (
               <motion.div
@@ -340,30 +345,28 @@ function Roadmap() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.2 }}
-                className={`relative flex flex-col lg:flex-row lg:items-center gap-8 ${
-                  i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
-                }`}
+                className={`relative flex flex-col lg:flex-row lg:items-center gap-8 ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
+                  }`}
               >
                 {/* Timeline dot */}
                 <div className='absolute left-1/2 top-8 -translate-x-1/2 h-6 w-6 rounded-full border-4 border-black hidden lg:block'
-                     style={{ background: item.gradient }} />
+                  style={{ background: item.gradient }} />
 
                 {/* Content card */}
                 <div className={`flex-1 ${i % 2 === 0 ? 'lg:pr-12' : 'lg:pl-12'}`}>
                   <div className='relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm group hover:border-white/20 transition-all duration-300'>
                     {/* Background gradient */}
-                    <div 
+                    <div
                       className='absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-300'
                       style={{ background: item.gradient }}
                     />
-                    
+
                     <div className='relative'>
                       {/* Phase badge */}
                       <div className='inline-flex items-center gap-2 mb-4'>
-                        <span 
-                          className={`inline-block h-2 w-2 rounded-full ${
-                            item.status === 'current' ? 'animate-pulse' : ''
-                          }`}
+                        <span
+                          className={`inline-block h-2 w-2 rounded-full ${item.status === 'current' ? 'animate-pulse' : ''
+                            }`}
                           style={{ background: item.status === 'current' ? brandPink : 'rgba(255,255,255,0.4)' }}
                         />
                         <span className='text-sm font-medium text-gray-300 uppercase tracking-wider'>
@@ -371,21 +374,21 @@ function Roadmap() {
                         </span>
                       </div>
 
-                      <h3 className='text-2xl font-bold mb-6' style={{ 
-                        color: item.status === 'current' ? brandWhite : '#e5e7eb' 
+                      <h3 className='text-2xl font-bold mb-6' style={{
+                        color: item.status === 'current' ? brandWhite : '#e5e7eb'
                       }}>
                         {item.title}
                       </h3>
-                      
+
                       {/* Features list */}
                       <ul className='space-y-3'>
                         {item.features.map((feature, idx) => (
                           <li key={idx} className='flex items-center text-gray-300'>
-                            <CheckCircle2 
-                              className='mr-3 h-4 w-4 flex-shrink-0' 
-                              style={{ 
-                                color: item.color 
-                              }} 
+                            <CheckCircle2
+                              className='mr-3 h-4 w-4 flex-shrink-0'
+                              style={{
+                                color: item.color
+                              }}
                             />
                             <span className='text-sm'>{feature}</span>
                           </li>
@@ -409,7 +412,7 @@ function Roadmap() {
 // ──────────────────────────────────────────────────────────────────────────────
 //  Call‑To‑Action                                                               
 // ──────────────────────────────────────────────────────────────────────────────
-function CallToAction() {
+function CallToAction({ onOpenModal }: { onOpenModal: () => void }) {
   return (
     <section className='border-t border-white/10 bg-black py-24'>
       <Container>
@@ -435,10 +438,14 @@ function CallToAction() {
             ))}
           </ul>
           <div className='mt-8 flex justify-center'>
-            <a href="https://discord.com/oauth2/authorize?client_id=1378415507794952332" target="_blank" className='text-lg text-black hover:opacity-90 p-2 px-4 rounded-full flex items-center' style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}>
-              Sumá la wallet a tu Discord
+            <button
+              onClick={onOpenModal}
+              className='text-lg text-black hover:opacity-90 p-2 px-4 rounded-full flex items-center transition-opacity'
+              style={{ backgroundImage: `linear-gradient(to right, ${brandPink}, ${brandPurple})` }}
+            >
+              Pedir acceso
               <ArrowRight className='ml-2 h-5 w-5' />
-            </a>
+            </button>
           </div>
         </div>
       </Container>
@@ -569,19 +576,23 @@ function AnimatedBackdrop() {
 //  Page                                                                         
 // ──────────────────────────────────────────────────────────────────────────────
 export default function HomePage() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const openModal = () => setIsModalOpen(true)
+
   return (
     <div className={`${poppins.className} min-h-screen bg-black text-white`}>
-      <Navbar />
+      <Navbar onOpenModal={openModal} />
 
       <main className='flex flex-col'>
-        <Hero />
+        <Hero onOpenModal={openModal} />
         {/*<PitchAndDemo />*/}
         <Features />
         <Roadmap />
-        <CallToAction />
+        <CallToAction onOpenModal={openModal} />
       </main>
 
       <Footer />
+      <RequestAccessModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   )
 }
