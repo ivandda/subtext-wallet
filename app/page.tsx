@@ -6,6 +6,8 @@ import { ArrowRight, CheckCircle2, LineChart, Lock, Wallet } from 'lucide-react'
 import Link from 'next/link'
 import { Poppins } from 'next/font/google'
 import { RequestAccessModal } from '@/components/request-access-modal'
+import QweLogo from '@/components/ui/dev-component'
+
 
 // ──────────────────────────────────────────────────────────────────────────────
 //  Brand settings
@@ -475,6 +477,21 @@ function Footer() {
             Términos
           </Link>
         </nav>
+      </Container>
+
+      <Container className="mt-2 flex justify-center border-t border-white/5 pt-8">
+        <a
+          href="https://www.qwesoftware.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 hover:scale-105 transition-transform origin-center text-sm text-gray-400"
+          aria-label="Developed by Qwe Software Services"
+        >
+          <span>Desarrollado por</span>
+          <span className="inline-flex">
+            <QweLogo />
+          </span>
+        </a>
       </Container>
     </footer>
   )
