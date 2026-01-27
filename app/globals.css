@@ -10,6 +10,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-qwe: hsl(175 60% 35%);
+  --font-type-machine: var(--font-type-machine);
 }
 
 @media (prefers-color-scheme: dark) {
